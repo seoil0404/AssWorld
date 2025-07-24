@@ -29,7 +29,10 @@ namespace Neeko {
 		public Per(float rate) {
 
 			_unit = CacheIfNeeded<TUnit>();
-			Interval = _unit.BaseMultiply / rate;
+
+			Interval = rate != 0f 
+				? _unit.BaseMultiply / rate
+				: float.PositiveInfinity;
 
 		}
 

@@ -16,12 +16,15 @@ namespace Neeko {
 
 		#pragma warning restore
 
+		//======================================================================| Unity Behaviours
+
 		//======================================================================| Methods
 
 		public virtual void OnShoot() {}
 		public virtual void OnUpdate() {}
 		public virtual void OnHit() {}
 		public virtual void OnDestroyed () {}
+
 
 	}
 

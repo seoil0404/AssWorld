@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Neeko {
 	
+	[RequireComponent(typeof(GunRotator))]
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class GunController : MonoBehaviour {
 
@@ -38,7 +39,7 @@ namespace Neeko {
 		private void Update() {
 			
 			GetInput();
-			ShootLogic();
+			ShootDetection();
 
 		}
 
@@ -51,7 +52,7 @@ namespace Neeko {
 
 		}
 
-		private void ShootLogic() {
+		private void ShootDetection() {
 		
 			_colldown -= Time.deltaTime;
 
