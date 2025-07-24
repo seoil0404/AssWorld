@@ -5,9 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/File_Hyun/Games/Bloxorz/Scenes/StageScene.unity
+    guid: 858c2aed92d0b13408509e993e84ba9e
+  - enabled: 1
+    path: Assets/File_Hyun/Games/Bloxorz/Scenes/GameScene.unity
+    guid: 563b19caf45bd214d9bae8d2d34d699f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
