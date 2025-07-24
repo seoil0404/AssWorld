@@ -14,7 +14,7 @@ namespace Neeko {
 		public abstract void Check(Component component);
 
 		protected void LogHierarchyError(string error) {
-			Debug.LogError(
+			throw new HierarchyException(
 				$"Hierarchy Error: {error}"
 			);
 		}

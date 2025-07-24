@@ -20,6 +20,9 @@ namespace Neeko {
 
 		}
 
+		/// <summary>
+		/// Find()와 다르게 전체 하위 오브젝트가 아닌 1차 상속 오브젝트만 탐색
+		/// </summary>
 		public static Transform GetChild(this Transform transform, string name) {
 
 			if (transform.childCount == 0) return null;
