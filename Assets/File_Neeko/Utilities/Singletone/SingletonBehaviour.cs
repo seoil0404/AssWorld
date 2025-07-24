@@ -1,73 +1,77 @@
 using UnityEngine;
 
-public class SingletonBehaviour<TSelf> : MonoBehaviour where TSelf : SingletonBehaviour<TSelf> {
+namespace Neeko {
 
-	//======================================================================| Fields
+	public class SingletonBehaviour<TSelf> : MonoBehaviour where TSelf : SingletonBehaviour<TSelf> {
 
-	private static TSelf _instance;
-	private static bool _isApplicationQuitting = false;
+		//======================================================================| Fields
 
-	protected static bool _disableInstantiateLog = false;
-	protected static string _customInstanceName = null;
+		private static TSelf _instance;
+		private static bool _isApplicationQuitting = false;
 
-	//======================================================================| Properties
+		protected static bool _disableInstantiateLog = false;
+		protected static string _customInstanceName = null;
 
-	public static TSelf Instance {
+		//======================================================================| Properties
 
-		get {
+		public static TSelf Instance {
+
+			get {
 			
-			if (_isApplicationQuitting) {
-				Debug.LogWarning(
-					$"[Singleton] " +
-					$"Instance of {typeof(TSelf)} already destroyed on application quit."
-				);
-				return null;
-			}
-
-			if (_instance == null) {
-				_instance = FindFirstObjectByType<TSelf>();
-			}
-
-			if (_instance == null) {
-
-				if (!_disableInstantiateLog) {
+				if (_isApplicationQuitting) {
 					Debug.LogWarning(
 						$"[Singleton] " +
-						$"No instance of {typeof(TSelf).Name} found in scene. " +
-						$"Creating new game object instance"
+						$"Instance of {typeof(TSelf)} already destroyed on application quit."
 					);
+					return null;
 				}
 
-				if (Application.isPlaying) {
-					string name = _customInstanceName ??= typeof(TSelf).Name;
-					_instance = new GameObject(name).AddComponent<TSelf>();
+				if (_instance == null) {
+					_instance = FindFirstObjectByType<TSelf>();
 				}
 
-			}			
+				if (_instance == null) {
 
-			return _instance;
+					if (!_disableInstantiateLog) {
+						Debug.LogWarning(
+							$"[Singleton] " +
+							$"No instance of {typeof(TSelf).Name} found in scene. " +
+							$"Creating new game object instance"
+						);
+					}
+
+					if (Application.isPlaying) {
+						string name = _customInstanceName ??= typeof(TSelf).Name;
+						_instance = new GameObject(name).AddComponent<TSelf>();
+					}
+
+				}			
+
+				return _instance;
+
+			}
 
 		}
 
-	}
+		//======================================================================| Unity Behaviours
 
-	//======================================================================| Unity Behaviours
+		protected virtual void Awake() {
 
-	protected virtual void Awake() {
+			if (_instance == null) {
+				_instance = this as TSelf;
+				DontDestroyOnLoad(gameObject);
+			}
 
-		if (_instance == null) {
-			_instance = this as TSelf;
-			DontDestroyOnLoad(gameObject);
+			else if (_instance != this) {
+				Destroy(gameObject);
+			}
+
 		}
 
-		else if (_instance != this) {
-			Destroy(gameObject);
+		protected virtual void OnApplicationQuit() {
+			_isApplicationQuitting = true;	
 		}
 
-	}
-
-	protected virtual void OnApplicationQuit() {
-		_isApplicationQuitting = true;	
 	}
 
 }
