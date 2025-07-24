@@ -1,13 +1,21 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Neeko {
 
-	public readonly struct Per<TUnit> where TUnit : IPerUnit, new() {
+	public class PerBase {
+
+		[SerializeField]
+		protected float _rate;
+
+	}
+
+	[Serializable]
+	public class Per<TUnit> : PerBase where TUnit : IPerUnit, new() {
 
 		//======================================================================| Fields
 
-		private readonly float _rate;
 		private readonly TUnit _unit;
 
 		private static readonly Dictionary<Type, IPerUnit> _units = new();
@@ -20,8 +28,6 @@ namespace Neeko {
 
 		public Per(float rate) {
 
-			_rate = rate;
-			
 			_unit = CacheIfNeeded<TUnit>();
 			Interval = _unit.BaseMultiply / rate;
 

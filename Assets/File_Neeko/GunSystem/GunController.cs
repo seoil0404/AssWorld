@@ -9,13 +9,16 @@ namespace Neeko {
 		//======================================================================| Inspector Fields
 
 		[SerializeField]
+		private GameObject _projectile;
+
+		[SerializeField]
 		private float _reloadingDuration;
 
 		[SerializeField]
 		private Per<Second> _sootingRate;
 
 		[SerializeField]
-		private GameObject _projectile;
+		private float _recoil;
 
 		//======================================================================| Fields
 
