@@ -1,16 +1,13 @@
 ﻿#if UNITY_EDITOR
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using Object = System.Object;
 
 namespace Wata.Extension.Test {
     
-    [CustomEditor(typeof(MonoBehaviour), true)]
+    [CustomEditor(typeof(MonoBehaviourWrapper), true)]
     public class TestEditor2: TestEditorBase {
         
         public override void OnInspectorGUI() {
@@ -26,7 +23,7 @@ namespace Wata.Extension.Test {
                 ExAttribute.HaveAttributeMethods<TestFunctionAttribute>(target, flag)
                     .OrderByDescending(data => data.Attribute.Priority);
 
-            //If don't have attribute Field, reutrn;
+            //If it didn't have attribute Field, reutrn;
             if (!targets.Any())
                 return;
             
