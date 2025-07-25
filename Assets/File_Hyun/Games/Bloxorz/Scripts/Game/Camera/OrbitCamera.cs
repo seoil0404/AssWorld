@@ -6,8 +6,8 @@ namespace Bloxorz.Game.Camera
     {
         [SerializeField] private Transform target;
         [SerializeField] private float distance = 9f;
-        [SerializeField] private float xSpeed = 240f;
-        [SerializeField] private float ySpeed = 140f;
+        [SerializeField] private float xSpeed = 300f;
+        [SerializeField] private float ySpeed = 160f;
         [SerializeField] private float yMinLimit = 10f;
         [SerializeField] private float yMaxLimit = 80f;
         [SerializeField] private float zoomSpeed = 6f;
@@ -19,9 +19,8 @@ namespace Bloxorz.Game.Camera
 
         private void Start()
         {
-            Vector3 angles = transform.eulerAngles;
-            x = angles.y;
-            y = angles.x;
+            x = 45f;
+            y = 45f;
 
             if (target == null)
             {
