@@ -18,4 +18,8 @@ MonoBehaviour:
   - RawDatas:
     - StageWidthFrequencyData
     TargetTypeName: StageWidthFrequencyData
-    csvDataStyle: 1
+    csvDataStyle: 0
+  - RawDatas:
+    - StageTypeFrequencyData
+    TargetTypeName: StageTypeFrequencyData
+    csvDataStyle: 0

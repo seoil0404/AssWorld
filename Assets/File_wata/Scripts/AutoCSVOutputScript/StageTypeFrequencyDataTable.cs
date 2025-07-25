@@ -5,5 +5,5 @@ using Wata.CSVData;
 
 
 [GeneratedCode]
-public class StageWidthFrequencyDataTable: CSVListTable<StageWidthFrequencyData> {}
+public class StageTypeFrequencyDataTable: CSVListTable<StageTypeFrequencyData> {}
 

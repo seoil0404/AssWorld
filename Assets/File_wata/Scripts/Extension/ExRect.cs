@@ -186,8 +186,8 @@ namespace Wata.Extension {
 
            rect.localPosition = result;
        }
-       
-       public static void SetLocalPositionY(this RectTransform rect, PivotLocation pivot, float position = 0f) {
+
+       public static void SetLocalPositionY(this RectTransform rect, PivotLocation pivot = PivotLocation.Middle, float position = 0f) {
                   
            var parentScale = rect.parent!.GetComponent<RectTransform>().sizeDelta;
            var result = rect.localPosition;

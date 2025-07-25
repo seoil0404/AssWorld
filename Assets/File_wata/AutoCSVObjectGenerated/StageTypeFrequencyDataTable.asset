@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c20c15e53fe9b8c45b2e77f8bca658e2, type: 3}
-  m_Name: StageWidthFrequencyDataTable
+  m_Script: {fileID: 11500000, guid: 52ce35bc4111f2747b0087fd3039a720, type: 3}
+  m_Name: StageTypeFrequencyDataTable
   m_EditorClassIdentifier: 
   <Table>k__BackingField:
-  - <Width>k__BackingField: 3
+  - <Type>k__BackingField: 0
+    <Frequency>k__BackingField: 3
+  - <Type>k__BackingField: 1
     <Frequency>k__BackingField: 1
-  - <Width>k__BackingField: 4
-    <Frequency>k__BackingField: 5
-  - <Width>k__BackingField: 5
-    <Frequency>k__BackingField: 4

@@ -6,9 +6,9 @@ using Wata.CSVData;
 
 [GeneratedCode]
 [Serializable]
-public class StageWidthFrequencyData: CSVListData {
+public class StageTypeFrequencyData: CSVListData {
 [field: SerializeField]
-public Int32 Width { get; private set; }
+public Wata.MapGenerator.Stage Type { get; private set; }
 [field: SerializeField]
 public Int32 Frequency { get; private set; }
 };

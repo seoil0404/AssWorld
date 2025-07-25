@@ -2,16 +2,21 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Wata.MapGenerator {
-    public static class StageAppearFrequency {
+    public static class StageTypeFrequency {
 
         //==================================================||Fields
         private static Dictionary<Stage, uint> frequency = new();
 
        //==================================================||Methods
-        public static void LoadPercent(Dictionary<Stage, uint> pSetting) =>
-            frequency = pSetting;
+       public static void LoadFrequency(StageTypeFrequencyDataTable pSetting) {
+           frequency = pSetting.Table
+               .ToDictionary(
+                   element => element.Type,
+                   element => (uint)element.Frequency
+               );
+       }
 
-        public static void AddPercent(Stage pStage, uint pAmount) =>
+       public static void AddPercent(Stage pStage, uint pAmount) =>
             frequency[pStage] += pAmount;
         public static void SubPercent(Stage pStage, uint pAmount) =>
                     frequency[pStage] -= pAmount;
