@@ -8,7 +8,7 @@ namespace Wata.MapGenerator {
         private static Dictionary<Stage, uint> frequency = new();
 
        //==================================================||Methods
-       public static void LoadFrequency(StageTypeFrequencyDataTable pSetting) {
+       public static void LoadData(StageTypeFrequencyDataTable pSetting) {
            frequency = pSetting.Table
                .ToDictionary(
                    element => element.Type,

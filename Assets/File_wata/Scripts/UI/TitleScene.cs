@@ -12,7 +12,7 @@ namespace File_wata.Scripts.UI {
        //==================================================||Methods 
         public void GameStart() {
             
-            StageTypeFrequency.LoadFrequency(_stageTypeFrequencyTable);
+            StageTypeFrequency.LoadData(_stageTypeFrequencyTable);
             SceneManager.LoadScene(Scene.Map);
         }
     }

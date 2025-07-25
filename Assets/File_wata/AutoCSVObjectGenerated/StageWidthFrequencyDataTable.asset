@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Table>k__BackingField:
   - <Width>k__BackingField: 3
-    <Frequency>k__BackingField: 1
+    <Frequency>k__BackingField: 2
   - <Width>k__BackingField: 4
-    <Frequency>k__BackingField: 5
+    <Frequency>k__BackingField: 12
   - <Width>k__BackingField: 5
-    <Frequency>k__BackingField: 4
+    <Frequency>k__BackingField: 9
+  - <Width>k__BackingField: 6
+    <Frequency>k__BackingField: 1
