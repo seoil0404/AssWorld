@@ -1,48 +1,52 @@
 using UnityEngine;
 
-public class SceneSingletonBehaviour<TSelf> : MonoBehaviour where TSelf : SceneSingletonBehaviour<TSelf> {
+namespace Neeko {
 
-	//======================================================================| Fields
+	public class SceneSingletonBehaviour<TSelf> : MonoBehaviour where TSelf : SceneSingletonBehaviour<TSelf> {
 
-	private static TSelf _instance;
+		//======================================================================| Fields
 
-	//======================================================================| Properties
+		private static TSelf _instance;
 
-	public static TSelf Instance {
+		//======================================================================| Properties
 
-		get {
+		public static TSelf Instance {
+
+			get {
+
+				if (_instance == null) {
+					_instance = FindFirstObjectByType<TSelf>();
+				}
+
+				if (!Application.isPlaying && _instance == null) {
+					Debug.LogWarning($"[SceneSingleton] {typeof(TSelf).Name} not found in scene.");
+				}
+
+				return _instance;
+
+			}
+
+		}
+
+		//======================================================================| Unity Behaviours
+
+		protected virtual void Awake() {
 
 			if (_instance == null) {
-				_instance = FindFirstObjectByType<TSelf>();
+				_instance = this as TSelf;
+			}
+			else if (_instance != this) {
+				Destroy(gameObject);
 			}
 
-			if (!Application.isPlaying && _instance == null) {
-				Debug.LogWarning($"[SceneSingleton] {typeof(TSelf).Name} not found in scene.");
+		}
+
+		protected virtual void OnDestroy() {
+			if (_instance == this) {
+				_instance = null;
 			}
-
-			return _instance;
-
 		}
 
-	}
-
-	//======================================================================| Unity Behaviours
-
-	protected virtual void Awake() {
-
-		if (_instance == null) {
-			_instance = this as TSelf;
-		}
-		else if (_instance != this) {
-			Destroy(gameObject);
-		}
-
-	}
-
-	protected virtual void OnDestroy() {
-		if (_instance == this) {
-			_instance = null;
-		}
 	}
 
 }
