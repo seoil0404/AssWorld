@@ -1,7 +1,8 @@
 ﻿namespace Wata.Extension.Scene {
-    public enum Scene {
-       Main,
-       Game, 
-       Loading
+    public enum Scene { 
+        Title,
+        Main,
+        Map,
+        Loading
     }
 }

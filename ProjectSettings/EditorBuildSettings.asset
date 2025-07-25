@@ -14,6 +14,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/File_Hyun/Games/Bloxorz/Scenes/GameScene.unity
     guid: 563b19caf45bd214d9bae8d2d34d699f
+  - enabled: 1
+    path: Assets/File_wata/Scene/Wata_Map.unity
+    guid: 5f9fcc38cc4b2104fa9fa75fdd6f2b0d
+  - enabled: 1
+    path: Assets/File_wata/Scene/Wata_Loading.unity
+    guid: df722154690c3524f945a8325488811e
+  - enabled: 1
+    path: Assets/File_wata/Scene/Wata_Main.unity
+    guid: acbb590e516633b46af29658055cbd37
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

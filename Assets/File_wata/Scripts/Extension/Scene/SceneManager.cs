@@ -12,7 +12,7 @@ namespace Wata.Extension.Scene {
         public static void LoadScene(Scene target) {
 
             Destination = target;
-			string sceneName = string.Format(sceneNameFormat, nameof(Scene.Loading));
+			var sceneName = string.Format(sceneNameFormat, nameof(Scene.Loading));
             UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         }
 
@@ -20,7 +20,8 @@ namespace Wata.Extension.Scene {
 
             yield return null;
             
-            _process = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(Destination.ToString());
+			var sceneName = string.Format(sceneNameFormat, Destination.ToString());
+            _process = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
             _process!.allowSceneActivation = false;
 
             while (!_process!.isDone) {

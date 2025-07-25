@@ -3,15 +3,19 @@ using UnityEngine;
 
 namespace Wata.Extension {
     public abstract class MonoSingleton<T> : MonoBehaviour 
-        where T: MonoBehaviour
-    {
+        where T: MonoBehaviour {
+
+        private static bool exitMyGame = false;
         public static T Instance { get; private set; }
         /// <summary>
         /// Do you use this single on just one scene?
         /// </summary>
-        protected abstract bool IsNarrowSingleton { set; get; } 
+        protected abstract bool IsNarrowSingleton { set; get; }
+
+        private static void EnterMyGame() => exitMyGame = false;
+        private static void ExitMyGame() => exitMyGame = true;
         
-        public void Awake() {
+        protected void Awake() {
             
             if (Instance != null) {
 
@@ -33,6 +37,11 @@ namespace Wata.Extension {
                 throw new ArgumentException($"T must be {type}");
             Instance = this as T;
             DontDestroyOnLoad(gameObject);
+        }
+
+        protected void Update() {
+            if(exitMyGame)
+                Destroy(gameObject);
         }
     }
 }
