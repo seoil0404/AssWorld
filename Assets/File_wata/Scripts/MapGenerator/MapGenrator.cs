@@ -199,6 +199,10 @@ namespace Wata.MapGenerator {
             TestSetUp();
         
             GenerateMap();
+
+            foreach (var node in _mapNodes[0]) {
+                node.ActiveAnimation();
+            }
         }
     }
 }

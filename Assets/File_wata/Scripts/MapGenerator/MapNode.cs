@@ -3,14 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Wata.Extension;
 
 namespace Wata.MapGenerator {
     public class MapNode: MonoBehaviour, IEnumerable<int> {
 
+       //==================================================||Constant
+       private const float animationCycle = 0.75f;
+       private const float animationScale = 1.2f;
+        
        //==================================================||Properties
-       
        public Vector2Int Position { get; private set; }
        public Stage Stage => _stageType;
 
@@ -20,11 +25,17 @@ namespace Wata.MapGenerator {
        [SerializeField] private Image _backGround;
        
        //==================================================||Fields 
+       private static Dictionary<Stage, Sprite> mapIcons = null;
         private Stage _stageType;
         private List<(int NextNode, GameObject Edge)> _edges = new();
-        private static Dictionary<Stage, Sprite> mapIcons = null;
+        private Tween _animation = null;
         
        //==================================================||Methods 
+
+       public void ActiveAnimation() {
+           _animation?.Kill();
+           _animation = transform.DOBreathing(animationCycle, animationScale);
+       }
        
         public void Add(int pIdx, GameObject pEdge) =>
             _edges.Add((pIdx, pEdge));
@@ -62,6 +73,7 @@ namespace Wata.MapGenerator {
        //==================================================||Unity
 
        private void OnDestroy() {
+           _animation?.Kill();
            _edges.ForEach(edge => Destroy(edge.Edge));
        }
     }

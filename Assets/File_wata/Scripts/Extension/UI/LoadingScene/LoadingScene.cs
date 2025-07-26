@@ -10,6 +10,7 @@ namespace Wata.Extension.UI {
 
         [SerializeField] private string _tipFormat = "Tip: {0}";
         [SerializeField] private TMP_Text _tipBox;
+        [SerializeField] private TMP_Text _progressShower;
         [SerializeField] private CustomSlider _slider;
         [SerializeField] private List<string> _tips;
 
@@ -20,7 +21,12 @@ namespace Wata.Extension.UI {
         }
 
         private void Update() {
-            _slider.Value = SceneManager.Progress;
+
+            var progress = SceneManager.Progress;
+
+            _slider.Value = progress;
+            if (_progressShower != null)
+                _progressShower.text = $"{progress:N0}%";
         }
     }
 }
