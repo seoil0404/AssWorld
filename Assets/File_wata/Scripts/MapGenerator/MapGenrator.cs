@@ -27,6 +27,9 @@ namespace Wata.MapGenerator {
         
         #endregion
         
+       //==================================================||Constant
+       private const int topIntval = 2;
+        
         //==================================================||SerializeFields 
         [Header("Position")]
         [SerializeField] private Vector2 _randomNoise = new(0.8f, 0.8f);
@@ -43,14 +46,10 @@ namespace Wata.MapGenerator {
         
         //==================================================||Fields 
         private List<List<MapNode>> _mapNodes = new();
-        private List<Image> _edges = new();
         
         //==================================================||Methods 
 
         private void GenerateMap() {
-            
-            _edges.ForEach(edge => Destroy(edge.gameObject));
-            _edges.Clear();            
             
             foreach (var floor in _mapNodes) {
                 floor.ForEach(node => Destroy(node.gameObject));
@@ -58,22 +57,15 @@ namespace Wata.MapGenerator {
             }
             _mapNodes.Clear();
 
-            var interval = 1f / (_roundCount + 1);
+            var interval = 1f / (_roundCount + 1 + topIntval);
             for (int i = 0; i < _roundCount; i++) {
-                GenerateRound(interval * (i + 1));
+                GenerateRound(interval * (i + 1), i);
                 GenerateEdges();
             }
         }
        
-        private Vector2 RandomNoise(Vector2 pSize) {
-            
-            var maxSize = pSize * _randomNoise;
-            var x = Random.Range(-maxSize.x, maxSize.x);
-            var y = Random.Range(-maxSize.y, maxSize.y);
-            return new(x, y);
-        }
         
-        private void GenerateRound(float pHeight) {
+        private void GenerateRound(float pHeight, int pIdx) {
 
             _mapNodes.Add(new());
             
@@ -92,7 +84,7 @@ namespace Wata.MapGenerator {
                 
                 //set type
                 var type = StageTypeFrequency.Random();
-                newIcon.SetIcon(type);
+                newIcon.Init(type, new(i, pIdx));
                 
                 _mapNodes[^1].Add(newIcon);
             }
@@ -115,6 +107,13 @@ namespace Wata.MapGenerator {
 
             throw new ArgumentOutOfRangeException();
         }
+        private Vector2 RandomNoise(Vector2 pSize) {
+                    
+                    var maxSize = pSize * _randomNoise;
+                    var x = Random.Range(-maxSize.x, maxSize.x);
+                    var y = Random.Range(-maxSize.y, maxSize.y);
+                    return new(x, y);
+                }
 
         private void GenerateEdges() {
             if (_mapNodes.Count <= 1)
@@ -166,7 +165,7 @@ namespace Wata.MapGenerator {
                 }
 
                 if (isAfter) {
-                    var target = _mapNodes[^2][i - 1][^1];
+                    var target = _mapNodes[^2][i - 1][^1].x;
                     GenerateEdge(_mapNodes[^2][i], _mapNodes[^1][target], target);
                 }
                 else {
@@ -182,7 +181,7 @@ namespace Wata.MapGenerator {
 
             var delta = pEnd.transform.position - pStart.transform.position;
             edge.transform.position = pStart.transform.position;
-            pStart.Add(pEndIdx);
+            pStart.Add(pEndIdx, edge.gameObject);
                  
             //Edge setting
             var size = edge.rectTransform.sizeDelta;
@@ -192,7 +191,6 @@ namespace Wata.MapGenerator {
             var direction = Mathf.Atan2(delta.y, delta.x);
             edge.transform.rotation = Quaternion.Euler(0, 0, direction * Mathf.Rad2Deg - 90);
             edge.rectTransform.SetSiblingIndex(0);
-            _edges.Add(edge);           
         }
         
         //==================================================||Unity

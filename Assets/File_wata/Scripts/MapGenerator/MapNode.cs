@@ -10,29 +10,33 @@ namespace Wata.MapGenerator {
     public class MapNode: MonoBehaviour, IEnumerable<int> {
 
        //==================================================||Properties
+       
+       public Vector2Int Position { get; private set; }
        public Stage Stage => _stageType;
 
-       public int this[Index pIdx] => _nextNode[pIdx];
+       public Vector2Int this[Index pIdx] => new (_edges[pIdx].NextNode, Position.y + 1);
        
       //==================================================||Serialize Field 
        [SerializeField] private Image _backGround;
        
        //==================================================||Fields 
         private Stage _stageType;
-        private List<int> _nextNode = new();
+        private List<(int NextNode, GameObject Edge)> _edges = new();
         private static Dictionary<Stage, Sprite> mapIcons = null;
         
        //==================================================||Methods 
        
-        public void Add(int pIdx) =>
-            _nextNode.Add(pIdx);
+        public void Add(int pIdx, GameObject pEdge) =>
+            _edges.Add((pIdx, pEdge));
         
-        public void SetIcon(Stage pStage) {
+        public void Init(Stage pStage, Vector2Int pPosition) {
 
             FindIcons();
             
             _stageType = pStage;
             _backGround.sprite = mapIcons[pStage];
+
+            Position = pPosition;
         }
         
         private static void FindIcons() =>
@@ -48,9 +52,17 @@ namespace Wata.MapGenerator {
                 );
 
         public IEnumerator<int> GetEnumerator() =>
-            _nextNode.GetEnumerator();
+            _edges
+                .Select(edge => edge.NextNode)
+                .GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
-            _nextNode.GetEnumerator();
+            _edges.GetEnumerator();
+        
+       //==================================================||Unity
+
+       private void OnDestroy() {
+           _edges.ForEach(edge => Destroy(edge.Edge));
+       }
     }
 }

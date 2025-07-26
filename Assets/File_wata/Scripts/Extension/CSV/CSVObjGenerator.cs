@@ -26,22 +26,21 @@ namespace Wata.CSVData {
                 Debug.Log($"complete {targetTypeName}(enum) Type making");
                 return;
             }
-
-            if (makeTable) {
-                
-                GenerateObjDataTable(targetTypeName, dataStyle);
-                Debug.Log($"complete {targetTypeName} Type making");
-            }
-            else
-                Debug.Log($"{targetTypeName} Type is already exist");
-
+            
             if (makeType) {
                 
                 GenerateObjDataType(targetTypeName, datas, dataStyle);
-                Debug.Log($"complete {targetTypeName}Table Type making");
+                Debug.Log($"complete {targetTypeName}Type making");
             }
             else
                 Debug.Log($"{targetTypeName}Table Type is already exist");
+            if (makeTable) {
+                
+                GenerateObjDataTable(targetTypeName, dataStyle);
+                Debug.Log($"complete {targetTypeName}Table  Type making");
+            }
+            else
+                Debug.Log($"{targetTypeName} Type is already exist");
         }
 
        private static void GenerateObjDataTable(string targetTypeName, CSVDataStyle dataStyle) {

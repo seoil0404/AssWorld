@@ -12,7 +12,6 @@ namespace Wata.CSVData {
         private const string DefaultPath = "Assets/File_wata/Scripts/AutoCSVOutputScript"; 
         public static void GenerateCode(string targetTypeName, List<List<string>> datas, CSVDataStyle dataStyle = CSVDataStyle.List) {
 
-            string result = DefaultHeader();
             if (dataStyle == CSVDataStyle.Enum) {
                 
                 GenerateEnum(targetTypeName, datas);
@@ -32,7 +31,7 @@ namespace Wata.CSVData {
             if (File.Exists(path))
                 File.Delete(path);
             
-            File.WriteAllText(path, context);
+            File.WriteAllText(path, context + "\n }");
         }
         
         private static string DefaultHeader() {
@@ -43,6 +42,7 @@ namespace Wata.CSVData {
             codeGenerator.AppendLine("using System.Collections.Generic;");
             codeGenerator.AppendLine("using Wata.CSVData;");
             codeGenerator.AppendLine("");
+            codeGenerator.AppendLine("namespace Wata {");
             codeGenerator.AppendLine("");
             return codeGenerator.ToString();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 using Wata.CSVData.Extensions;
 using Object = System.Object;
 

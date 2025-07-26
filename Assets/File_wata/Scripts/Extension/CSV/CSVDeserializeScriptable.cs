@@ -22,7 +22,7 @@ namespace Wata.CSVData {
         
         public static ScriptableObject GetTable(Type targetType, string diretory = DefaultDirectory) {
 
-            var tableType = Type.GetType($"{targetType.Name}Table, Assembly-CSharp");
+            var tableType = Type.GetType($"{targetType}Table");
 
             if (targetType == null || tableType == null) {
                 throw new TypeAccessException($"'{targetType}' or '{targetType}Table' type isn't exist ");
@@ -80,7 +80,7 @@ namespace Wata.CSVData {
         //2d
         public static void SyncCSVObjectDictionary(string targetTypeName, List<List<string>> datas,
             string directory = DefaultDirectory) =>
-            SyncCSVObjectDictionary(Type.GetType($"{targetTypeName}, Assembly-CSharp"), datas, directory);
+            SyncCSVObjectDictionary(Type.GetType($"{targetTypeName}") ?? Type.GetType($"Wata.{targetTypeName}"), datas, directory);
         
         public static void SyncCSVObjectDictionary<T>(List<List<string>> datas, string directory = DefaultDirectory)
             where T: CSVDictionaryData =>
@@ -160,7 +160,7 @@ namespace Wata.CSVData {
         
         public static void SyncCSVObjectList(string targetTypeName, List<List<string>> datas,
             string directory = DefaultDirectory) =>
-            SyncCSVObjectList(Type.GetType(targetTypeName), datas, directory);
+            SyncCSVObjectList(Type.GetType(targetTypeName) ?? Type.GetType($"Wata.{targetTypeName}"), datas, directory);
         
         public static void SyncCSVObjectList(Type targetType, List<List<string>> datas,
             string directory = DefaultDirectory) {

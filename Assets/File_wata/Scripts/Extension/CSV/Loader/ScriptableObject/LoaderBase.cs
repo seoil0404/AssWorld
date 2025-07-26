@@ -13,7 +13,8 @@ namespace Wata.CSVData {
         public abstract void Generate();
         
         protected void SyncObject(string targetTypeName, List<List<string>> datas, string directory) {
-            var targetTableType = Type.GetType($"{targetTypeName}Table")!;
+            var targetTableType = Type.GetType($"{targetTypeName}Table") 
+                ?? Type.GetType($"Wata.{targetTypeName}Table")!;
             if(targetTableType.BaseType!.GetGenericTypeDefinition() == typeof(CSVDictionaryTable<>))
                 CSV.SyncCSVObjectDictionary(targetTypeName, datas, directory);
             else 

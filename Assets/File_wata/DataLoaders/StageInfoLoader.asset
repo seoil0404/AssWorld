@@ -23,3 +23,7 @@ MonoBehaviour:
     - StageTypeFrequencyData
     TargetTypeName: StageTypeFrequencyData
     csvDataStyle: 0
+  - RawDatas:
+    - SymbolData
+    TargetTypeName: SymbolData
+    csvDataStyle: 1

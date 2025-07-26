@@ -2,7 +2,7 @@ using UnityEngine;
 using Wata.Extension.Scene;
 using Wata.MapGenerator;
 
-namespace File_wata.Scripts.UI {
+namespace Wata.Scripts.UI {
     public class TitleScene: MonoBehaviour {
 
        //==================================================||Fields 
