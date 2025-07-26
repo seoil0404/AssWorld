@@ -61,6 +61,18 @@ namespace Bloxorz.Game.Block
                 currentState = nextState;
                 UpdateTransform();
                 isMoving = false;
+
+                // 클리어 및 게임오버 판정
+                if (IsClear())
+                {
+                    Debug.Log("Stage Clear!");
+                    // TODO: 클리어 처리
+                }
+                else if (IsGameOver())
+                {
+                    Debug.Log("Game Over!");
+                    // TODO: 게임 오버 처리
+                }
             });
         }
 
@@ -90,6 +102,62 @@ namespace Bloxorz.Game.Block
                     break;
             }
             transform.rotation = Quaternion.identity;
+        }
+
+        private bool IsClear()
+        {
+            if (currentState != BlockState.Standing) return false;
+
+            Vector3Int below = Vector3Int.RoundToInt(transform.position + Vector3.down);
+            GameObject tile = GetTileAt(below);
+            return tile != null && tile.name.StartsWith("GoalTile");
+        }
+
+        private bool IsGameOver()
+        {
+            foreach (Vector3Int pos in GetBottomPositions())
+            {
+                GameObject tile = GetTileAt(pos);
+                if (tile == null || (!tile.name.StartsWith("Tile") && !tile.name.StartsWith("GoalTile")))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private GameObject GetTileAt(Vector3Int pos)
+        {
+            string[] names = {
+                $"Tile_{pos.x}_{pos.z}",
+                $"GoalTile_{pos.x}_{pos.z}"
+            };
+
+            foreach (string name in names)
+            {
+                GameObject found = GameObject.Find(name);
+                if (found != null) return found;
+            }
+
+            return null;
+        }
+
+        private Vector3Int[] GetBottomPositions()
+        {
+            Vector3Int center = Vector3Int.RoundToInt(transform.position + Vector3.down);
+            return currentState switch
+            {
+                BlockState.Standing => new[] { center },
+                BlockState.Lying_X => new[] {
+                    center + Vector3Int.left,
+                    center + Vector3Int.right
+                },
+                BlockState.Lying_Z => new[] {
+                    center + new Vector3Int(0, 0, -1),
+                    center + new Vector3Int(0, 0, 1)
+                },
+                _ => new[] { center }
+            };
         }
     }
 }
