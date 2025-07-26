@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 using Wata.Extension;
@@ -123,6 +121,8 @@ namespace Wata.MapGenerator {
                 return;
 
             var isAfter = _mapNodes[^1].Count > _mapNodes[^2].Count;
+            var count = isAfter ? _mapNodes[^2].Count : _mapNodes[^1].Count;
+            var visit = new int[count];
             var idx1 = 0;
             foreach (var node in isAfter ? _mapNodes[^1] : _mapNodes[^2]) {
                 int target = 0;
@@ -139,30 +139,60 @@ namespace Wata.MapGenerator {
                     idx2++;
                 }
 
-                var edge = Instantiate(_edge, transform);
-                var size = edge.rectTransform.sizeDelta;
-                size.y = distance;
-                edge.rectTransform.sizeDelta = size;
-
-                var delta = Vector2.zero;
                 if (isAfter) {
-                    edge.transform.position = _mapNodes[^2][target].transform.position;
-                    delta = node.transform.position - edge.transform.position;
-                    _mapNodes[^2][target].Add(idx1);
+                    GenerateEdge(_mapNodes[^2][target], node, idx1);
                 }
                 else {
-                    
-                    edge.transform.position = node.transform.position;
-                    delta = _mapNodes[^1][target].transform.position - edge.transform.position;
-                    node.Add(target);
+                    GenerateEdge(node, _mapNodes[^1][target], target);
                 }
-                var direction = Mathf.Atan2(delta.y, delta.x);
-                edge.transform.rotation = Quaternion.Euler(0, 0, direction * Mathf.Rad2Deg - 90);
-                _edges.Add(edge);
 
+                visit[target] = idx1;
+                
                 idx1++;
             }
             
+            for (int i = 0; i < count; i++) {
+                if(visit[i] != 0)
+                    continue;
+
+                if (i == 0) {
+                    GenerateEdge(_mapNodes[^2][0], _mapNodes[^1][0], 0);
+                    continue;
+                }
+
+                if (i == count - 1) {
+                    GenerateEdge(_mapNodes[^2][^1], _mapNodes[^1][^1], _mapNodes[^1].Count);
+                    continue;
+                }
+
+                if (isAfter) {
+                    var target = _mapNodes[^2][i - 1][^1];
+                    GenerateEdge(_mapNodes[^2][i], _mapNodes[^1][target], target);
+                }
+                else {
+                    var target = visit[i - 1];
+                    GenerateEdge(_mapNodes[^2][target], _mapNodes[^1][i], i);
+                }
+            }
+        }
+
+        private void GenerateEdge(MapNode pStart, MapNode pEnd, int pEndIdx) {
+            var edge = Instantiate(_edge, transform);
+
+
+            var delta = pEnd.transform.position - pStart.transform.position;
+            edge.transform.position = pStart.transform.position;
+            pStart.Add(pEndIdx);
+                 
+            //Edge setting
+            var size = edge.rectTransform.sizeDelta;
+            size.y = delta.magnitude;
+            
+            edge.rectTransform.sizeDelta = size;
+            var direction = Mathf.Atan2(delta.y, delta.x);
+            edge.transform.rotation = Quaternion.Euler(0, 0, direction * Mathf.Rad2Deg - 90);
+            edge.rectTransform.SetSiblingIndex(0);
+            _edges.Add(edge);           
         }
         
         //==================================================||Unity

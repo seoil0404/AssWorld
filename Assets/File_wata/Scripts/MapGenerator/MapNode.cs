@@ -11,7 +11,9 @@ namespace Wata.MapGenerator {
 
        //==================================================||Properties
        public Stage Stage => _stageType;
-        
+
+       public int this[Index pIdx] => _nextNode[pIdx];
+       
       //==================================================||Serialize Field 
        [SerializeField] private Image _backGround;
        
