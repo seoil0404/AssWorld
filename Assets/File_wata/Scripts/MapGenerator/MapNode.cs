@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using Wata.Extension;
 
 namespace Wata.MapGenerator {
-    public class MapNode: MonoBehaviour, IEnumerable<int> {
+    public class MapNode: MonoBehaviour, IEnumerable<Vector2Int> {
 
        //==================================================||Constant
        private const float animationCycle = 0.75f;
@@ -32,9 +32,16 @@ namespace Wata.MapGenerator {
         
        //==================================================||Methods 
 
-       public void ActiveAnimation() {
+       public void ActiveNode() {
            _animation?.Kill();
            _animation = transform.DOBreathing(animationCycle, animationScale);
+       }
+
+       public void ActiveNextNodes() {
+           _edges.ForEach(edge => {
+               var image = edge.Edge.GetComponent<Image>();
+               image.material = EdgeMaterial.Instance._ableToMove;
+           });
        }
        
         public void Add(int pIdx, GameObject pEdge) =>
@@ -62,13 +69,13 @@ namespace Wata.MapGenerator {
                     sprite => sprite
                 );
 
-        public IEnumerator<int> GetEnumerator() =>
+        public IEnumerator<Vector2Int> GetEnumerator() =>
             _edges
-                .Select(edge => edge.NextNode)
+                .Select(edge => new Vector2Int(edge.NextNode, Position.y))
                 .GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
-            _edges.GetEnumerator();
+            GetEnumerator();
         
        //==================================================||Unity
 

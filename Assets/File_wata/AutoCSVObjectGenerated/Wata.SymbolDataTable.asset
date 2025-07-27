@@ -19,43 +19,43 @@ MonoBehaviour:
         <SerialNumber>k__BackingField: 1001
         <Name>k__BackingField: "\uD798"
         <Description>k__BackingField: "\uD798\uC744 1\uB9CC\uD07C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4."
-        <Rarerity>k__BackingField: 0
+        <Rarity>k__BackingField: 0
+        <Effect>k__BackingField: 
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 0
         <Category>k__BackingField: 0
-        <Effect>k__BackingField: 
     - Key: 1002
       Value:
         <SerialNumber>k__BackingField: 1002
         <Name>k__BackingField: "\uCE58\uB8CC\uC220"
         <Description>k__BackingField: "\uD604\uC7AC \uCCB4\uB825\uC744 1\uB9CC\uD07C
           \uD68C\uBCF5\uD569\uB2C8\uB2E4."
-        <Rarerity>k__BackingField: 0
+        <Rarity>k__BackingField: 0
+        <Effect>k__BackingField: 
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 1
         <Category>k__BackingField: 3
-        <Effect>k__BackingField: 
     - Key: 1003
       Value:
         <SerialNumber>k__BackingField: 1003
         <Name>k__BackingField: "\uD718\uB450\uB974\uAE30"
         <Description>k__BackingField: "\uC801\uC5D0\uAC8C \uC57D\uAC04\uC758 \uD53C\uD574\uB97C
           \uC785\uD799\uB2C8\uB2E4."
-        <Rarerity>k__BackingField: 0
+        <Rarity>k__BackingField: 0
+        <Effect>k__BackingField: 
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 1
         <Category>k__BackingField: 0
-        <Effect>k__BackingField: 
     - Key: 1004
       Value:
         <SerialNumber>k__BackingField: 1004
         <Name>k__BackingField: "\uC900\uBE44\uC6B4\uB3D9"
         <Description>k__BackingField: "\uBBFC\uCCA9\uC744 1\uB9CC\uD07C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4."
-        <Rarerity>k__BackingField: 0
+        <Rarity>k__BackingField: 0
+        <Effect>k__BackingField: 
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 0
         <Category>k__BackingField: 1
-        <Effect>k__BackingField: 
     - Key: 1005
       Value:
         <SerialNumber>k__BackingField: 1005
@@ -63,8 +63,8 @@ MonoBehaviour:
         <Description>k__BackingField: "\uBC1D\uC740 \uBE5B\uC73C\uB85C \uC0C1\uB300\uC5D0\uAC8C
           \uC2E4\uBA85\uD6A8\uACFC\uB97C \uBD80\uC5EC\uD569\uB2C8\uB2E4.\n(\uB9C8\uB825\uC774
           3\uC774\uC0C1\uC77C \uB54C \uBC1C\uB3D9)"
-        <Rarerity>k__BackingField: 0
+        <Rarity>k__BackingField: 0
+        <Effect>k__BackingField: 
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 0
         <Category>k__BackingField: 2
-        <Effect>k__BackingField: 

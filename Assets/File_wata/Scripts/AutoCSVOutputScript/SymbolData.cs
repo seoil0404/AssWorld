@@ -13,15 +13,15 @@ public String Name { get; private set; }
 [field: SerializeField]
 public String Description { get; private set; }
 [field: SerializeField]
-public Wata.SymbolRarity Rarerity { get; private set; }
+public Wata.SymbolRarity Rarity { get; private set; }
+[field: SerializeField]
+public String Effect { get; private set; }
 [field: SerializeField]
 public Int32 ProcessPriority { get; private set; }
 [field: SerializeField]
 public Wata.SymbolType Type { get; private set; }
 [field: SerializeField]
 public Wata.SymbolCategory Category { get; private set; }
-[field: SerializeField]
-public String Effect { get; private set; }
 };
 
  }

@@ -31,6 +31,11 @@ namespace Wata.MapGenerator {
        private const int topIntval = 2;
         
         //==================================================||SerializeFields 
+        [Space]
+        [Header("Target")]
+        [SerializeField] private GameObject _map;
+        
+        [Space]
         [Header("Position")]
         [SerializeField] private Vector2 _randomNoise = new(0.8f, 0.8f);
         
@@ -73,7 +78,7 @@ namespace Wata.MapGenerator {
             var interval = 1f / width;
             
             for (int i = 1; i < width; i++ ) {
-                var newIcon = Instantiate(_roundSymbol, transform);
+                var newIcon = Instantiate(_roundSymbol, _map.transform);
 
                 var rect = newIcon.transform as RectTransform;
                 
@@ -176,7 +181,7 @@ namespace Wata.MapGenerator {
         }
 
         private void GenerateEdge(MapNode pStart, MapNode pEnd, int pEndIdx) {
-            var edge = Instantiate(_edge, transform);
+            var edge = Instantiate(_edge, _map.transform);
 
 
             var delta = pEnd.transform.position - pStart.transform.position;
@@ -201,7 +206,7 @@ namespace Wata.MapGenerator {
             GenerateMap();
 
             foreach (var node in _mapNodes[0]) {
-                node.ActiveAnimation();
+                node.ActiveNode();
             }
         }
     }

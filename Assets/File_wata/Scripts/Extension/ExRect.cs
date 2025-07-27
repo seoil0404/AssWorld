@@ -12,7 +12,7 @@ namespace Wata.Extension {
         public readonly PivotLocation X;
         public readonly PivotLocation Y;
 
-        public Pivot(PivotLocation x, PivotLocation y) => 
+        public Pivot(PivotLocation x = PivotLocation.Middle, PivotLocation y = PivotLocation.Middle) => 
             (X, Y) = (x, y);
     } 
     
