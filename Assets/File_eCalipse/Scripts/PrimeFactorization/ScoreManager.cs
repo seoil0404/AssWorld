@@ -21,6 +21,7 @@ namespace Ecalipse
             }
 
             int score;
+            public int targetScore;
             public Text scoreText;
 
 
@@ -31,7 +32,8 @@ namespace Ecalipse
 
             public void InitScore() => score = 0;
             public void AddScore() => score++;
-            public void ShowScore() => scoreText.text = score.ToString();
+            public void ShowScore() => scoreText.text = $"{score} / {targetScore}";
+            public bool GetIsPlaying() => score < targetScore;
         }
     }
 }
