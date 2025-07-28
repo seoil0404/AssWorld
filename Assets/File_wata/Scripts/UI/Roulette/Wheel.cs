@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
-using File_wata.Scripts;
 using UnityEngine;
+using Wata.Data;
 using Wata.Extension;
 using Wata.Extension.Test;
 using Random = UnityEngine.Random;

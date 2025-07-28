@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
-using File_wata.Scripts;
-using Neeko;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Wata.Data;
 using Wata.Extension;
 
 namespace Wata.UI.Roulette {
@@ -57,7 +54,7 @@ namespace Wata.UI.Roulette {
             //animation
             _initialPos = _rouletteBoard.transform.position;
             _shakeAnimation = 
-                _rouletteBoard.transform.DOShakePosition(10f, new Vector2(7, 17), 8, fadeOut: false)
+                _rouletteBoard.transform.DOShakePosition(1f, new Vector2(0, 5), fadeOut: false)
                     .SetLoops(-1);
 
             IsRoll = true;
@@ -96,9 +93,11 @@ namespace Wata.UI.Roulette {
             PlayerData.AddSymbol(1001, 3);
             PlayerData.AddSymbol(1002, 5);
             PlayerData.AddSymbol(1003, 3);
-            PlayerData.AddSymbol(1004, 7);
+            PlayerData.AddSymbol(1004, 5);
             PlayerData.AddSymbol(1005, 1);
             PlayerData.AddSymbol(1006, 1);
+            PlayerData.AddSymbol(1007, 1);
+            PlayerData.AddSymbol(1008, 1);
             
             StartRoll();
         }

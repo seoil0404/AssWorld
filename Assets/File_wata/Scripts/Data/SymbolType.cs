@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 namespace Wata {
-    
+
     public enum SymbolType {
         Buff,
         Skill
@@ -9,7 +12,6 @@ namespace Wata {
         Strength,
         Dexterity,
         Wisdom,
-        Health
     }
 
     public enum SymbolRarity {

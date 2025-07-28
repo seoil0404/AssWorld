@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace File_wata.Scripts {
+namespace Wata.Data {
     public static class PlayerData {
 
         public const int Width = 5;
@@ -15,6 +14,7 @@ namespace File_wata.Scripts {
         private static SortedDictionary<int, int> symbols = new();
 
        //==================================================||Properties 
+       
         public static List<(int Item, int Count)> Symbols {
             get {
 
@@ -49,6 +49,12 @@ namespace File_wata.Scripts {
             symbols.Add(0, MaxSymbolCount);
         }
 
+        public static int Amount(this int pSymbol) {
+            if (symbols.TryGetValue(pSymbol, out var result))
+                return result;
+            return 0;
+        }
+        
         public static bool IsAddable(out int pNecessarySpace, int pAmount = 1) {
 
             pNecessarySpace = pAmount - symbols[0];

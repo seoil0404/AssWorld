@@ -11,6 +11,10 @@ public class SymbolData: CSVDictionaryData {
 [field: SerializeField]
 public String Name { get; private set; }
 [field: SerializeField]
+public String ConditionCode { get; private set; }
+[field: SerializeField]
+public String Condition { get; private set; }
+[field: SerializeField]
 public String Description { get; private set; }
 [field: SerializeField]
 public Wata.SymbolRarity Rarity { get; private set; }
