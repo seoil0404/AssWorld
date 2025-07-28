@@ -12,19 +12,18 @@ namespace File_wata.Scripts {
 
         public const int MaxSymbolCount = 25;
 
-        private static SortedDictionary<int, int> symbols;
+        private static SortedDictionary<int, int> symbols = new();
 
        //==================================================||Properties 
         public static List<(int Item, int Count)> Symbols {
             get {
 
-                var removeTargets = symbols.Where(items => items.Value <= 0);
+                var removeTargets = symbols.Where(items => items.Value <= 0 && items.Key != 0);
                 foreach (var removeTarget in removeTargets) {
                     symbols.Remove(removeTarget.Key);
                 }
                 
                 return symbols
-                    .Where(items => items.Key != 0)
                     .Select(kvp => (kvp.Key, kvp.Value))
                     .ToList();
             }
@@ -57,10 +56,13 @@ namespace File_wata.Scripts {
         }
         
         public static void AddSymbol(int pSymbol, int pAmount = 1) {
+            
             if (!IsAddable(out var necessarySpace ,pAmount)) 
                 throw new Exception($"You can't add item, You should remove items.(need space: {necessarySpace}");
 
             symbols[0] -= pAmount;
+            
+            symbols.TryAdd(pSymbol, 0);
             symbols[pSymbol] += pAmount;
             Debug.Log($"{pSymbol} is added(count: {pAmount})");
         }

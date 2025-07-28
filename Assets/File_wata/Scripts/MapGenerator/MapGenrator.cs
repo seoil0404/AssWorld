@@ -114,11 +114,11 @@ namespace Wata.MapGenerator {
         }
         private Vector2 RandomNoise(Vector2 pSize) {
                     
-                    var maxSize = pSize * _randomNoise;
-                    var x = Random.Range(-maxSize.x, maxSize.x);
-                    var y = Random.Range(-maxSize.y, maxSize.y);
-                    return new(x, y);
-                }
+            var maxSize = pSize * _randomNoise;
+            var x = Random.Range(-maxSize.x, maxSize.x);
+            var y = Random.Range(-maxSize.y, maxSize.y);
+            return new(x, y);
+        }
 
         private void GenerateEdges() {
             if (_mapNodes.Count <= 1)

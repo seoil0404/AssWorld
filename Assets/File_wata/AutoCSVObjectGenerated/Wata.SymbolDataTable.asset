@@ -14,6 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Table>k__BackingField:
     _dataList:
+    - Key: 0
+      Value:
+        <SerialNumber>k__BackingField: 0
+        <Name>k__BackingField: "\uBE48\uCE78"
+        <Description>k__BackingField: "\uC544\uBB34 \uAC83\uB3C4 \uC5C6\uB294 \uBE48\uCE78\uC785\uB2C8\uB2E4."
+        <Rarity>k__BackingField: 0
+        <Effect>k__BackingField: 
+        <ProcessPriority>k__BackingField: 0
+        <Type>k__BackingField: 0
+        <Category>k__BackingField: 0
     - Key: 1001
       Value:
         <SerialNumber>k__BackingField: 1001
@@ -49,7 +59,7 @@ MonoBehaviour:
     - Key: 1004
       Value:
         <SerialNumber>k__BackingField: 1004
-        <Name>k__BackingField: "\uC900\uBE44\uC6B4\uB3D9"
+        <Name>k__BackingField: "\uC2E0\uC18D"
         <Description>k__BackingField: "\uBBFC\uCCA9\uC744 1\uB9CC\uD07C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
         <Effect>k__BackingField: 
@@ -59,6 +69,16 @@ MonoBehaviour:
     - Key: 1005
       Value:
         <SerialNumber>k__BackingField: 1005
+        <Name>k__BackingField: "\uCC45"
+        <Description>k__BackingField: "\uB9C8\uB825\uC744 1\uB9CC\uD07C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4."
+        <Rarity>k__BackingField: 0
+        <Effect>k__BackingField: 
+        <ProcessPriority>k__BackingField: 1
+        <Type>k__BackingField: 0
+        <Category>k__BackingField: 2
+    - Key: 1006
+      Value:
+        <SerialNumber>k__BackingField: 1006
         <Name>k__BackingField: "\uC12C\uAD11"
         <Description>k__BackingField: "\uBC1D\uC740 \uBE5B\uC73C\uB85C \uC0C1\uB300\uC5D0\uAC8C
           \uC2E4\uBA85\uD6A8\uACFC\uB97C \uBD80\uC5EC\uD569\uB2C8\uB2E4.\n(\uB9C8\uB825\uC774
@@ -66,5 +86,5 @@ MonoBehaviour:
         <Rarity>k__BackingField: 0
         <Effect>k__BackingField: 
         <ProcessPriority>k__BackingField: 1
-        <Type>k__BackingField: 0
+        <Type>k__BackingField: 1
         <Category>k__BackingField: 2
