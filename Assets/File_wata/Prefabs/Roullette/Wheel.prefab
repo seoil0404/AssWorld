@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _symbolShowerPrefab: {fileID: -781535803682826359, guid: 4fd0b6e1e924bb24cb387f4a8c868e17, type: 3}
+  _speed: 1300
 --- !u!114 &-7540747163376075268
 MonoBehaviour:
   m_ObjectHideFlags: 0

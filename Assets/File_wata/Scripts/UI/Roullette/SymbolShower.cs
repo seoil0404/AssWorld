@@ -13,7 +13,7 @@ namespace Wata.UI.Roullette {
         [SerializeField] private Vector2 _size;
         private static Dictionary<int, Sprite> _symbolIcon = null;
         private int _symbol;
-       
+        public int Symbol => _symbol;
         
         public void SetIcon(int pSymbol) {
             

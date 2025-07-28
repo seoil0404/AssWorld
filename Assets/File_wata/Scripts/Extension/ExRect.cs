@@ -207,6 +207,27 @@ namespace Wata.Extension {
        
        public static void SetLocalPosition(this RectTransform rect, Vector2 ratio) =>
             rect.SetLocalPosition(Pivot.Middle, ratio);
+
+       public static Vector2 GetLocalPosition(this RectTransform rect, Pivot pivot) {
+           var parentScale = rect.parent!.GetComponent<RectTransform>().sizeDelta;
+           var result = rect.localPosition / parentScale;
+           
+           result.x += pivot.X switch {
+           
+               PivotLocation.Down => 0.5f,
+               PivotLocation.Up => -0.5f,
+               _ => 0,
+           };
+           
+           result.y += pivot.Y switch {
+           
+               PivotLocation.Down => 0.5f,
+               PivotLocation.Up => -0.5f,
+               _ => 0,
+           };
+
+           return result;
+       }
        
        public static void SetLocalPosition(this RectTransform rect, Pivot pivot, Vector2 ratio) {
            var parentScale = rect.parent!.GetComponent<RectTransform>().sizeDelta;
