@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Ecalipse
 {
@@ -10,7 +9,7 @@ namespace Ecalipse
     {
         public class GameManager : MonoBehaviour
         {
-            List<int> inputNumbers;
+            List<int> inputNumbers = new();
             int targetNumber;
 
             float time = 0;
@@ -26,6 +25,8 @@ namespace Ecalipse
             private void Start()
             {
                 run += Judge;
+                run += Init;
+                targetNumber = 8;
             }
 
             public void Input(int num) => inputNumbers.Add(num);
@@ -52,6 +53,15 @@ namespace Ecalipse
                 if (PrimeFactor.Instance.IsCorrect(CalculatedTarget, inputNumbers))
                     ScoreManager.Instance.AddScore();
                 ScoreManager.Instance.ShowScore();
+
+                //debug
+                PrimeFactor.Instance.Print(inputNumbers);
+                PrimeFactor.Instance.Print(CalculatedTarget);
+            }
+
+            void Init()
+            {
+                inputNumbers = new();
             }
 
             
