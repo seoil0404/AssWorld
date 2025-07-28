@@ -57,7 +57,7 @@ namespace Ecalipse
                 else return false;
             }
 
-            public void Print(List<int> list)
+            public void DebugPrint(List<int> list)
             {
                 string temp = string.Empty;
 
