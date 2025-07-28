@@ -1,24 +1,38 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using File_wata.Scripts;
 using UnityEngine;
 using Wata.Extension;
 using Wata.Extension.Test;
 using Random = UnityEngine.Random;
 
-namespace Wata.UI.Roullette {
+namespace Wata.UI.Roulette {
     public class Wheel: MonoBehaviourWrapper {
 
-        private const float DefaultSpeed = 1200;
+        private const float DefaultSpeed = 1750;
         private const float RandomSpeedRange = 500;
         
+       //==================================================||Serialize Fields 
         [SerializeField] private SymbolShower _symbolShowerPrefab;
         [SerializeField] private float _speed;
-        private LinkedList<SymbolShower> _showers = new();
         
+       //==================================================||Fields 
+        private LinkedList<SymbolShower> _showers = new();
+        private bool _isRoll = false;
+        
+       //==================================================||Properties 
+        public bool IsRoll => _isRoll;
+
+        public IEnumerable<int> Symbols => _showers
+            .Skip(1)
+            .Select(symbol => symbol.Symbol);
+        
+       //==================================================||Methods 
         private void SetUp() {
 
+            _isRoll = true;
             _speed = DefaultSpeed + Random.Range(0, RandomSpeedRange);
             
             foreach (var symbolShower in _showers) {
@@ -42,8 +56,29 @@ namespace Wata.UI.Roullette {
             }
         }
 
+        public void Stop() {
+            _isRoll = false;
+            
+             var idx = -1;
+             var height = (transform as RectTransform)!.sizeDelta.y / PlayerData.Height;
+             foreach (var shower in _showers) {
+                 idx++;
+                 if (idx == 0) {
+                     shower.gameObject.SetActive(false);
+                     continue;
+                 }
+
+                 shower.transform.DOLocalMoveY(height * (PlayerData.Height - idx - 0.5f), 0.8f)
+                     .SetEase(Ease.OutElastic);
+             }
+        }
+        
+       //==================================================||Unity 
         private void Update() {
 
+            if (!_isRoll)
+                return;
+            
             var cnt = 0;
             var top = _showers.First.Value.transform.position.y;
             var size = (_showers.First.Value.transform as RectTransform)!.sizeDelta.y;

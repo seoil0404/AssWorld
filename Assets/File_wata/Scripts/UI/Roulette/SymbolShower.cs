@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Wata.Extension;
 
-namespace Wata.UI.Roullette {
+namespace Wata.UI.Roulette {
     
     [RequireComponent(typeof(Image))]
     public class SymbolShower: MonoBehaviour {
