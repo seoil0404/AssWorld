@@ -1,5 +1,5 @@
 namespace Wata.Data {
-    public class StateData {
+    public class StatusData {
 
         public int Strength;
         public int Dexterity;

@@ -21,8 +21,12 @@ namespace Wata.UI {
 
         private Tween _animation = null;
         private bool _isActive = false;
+
+        public void TurnOn(int pSymbol, StatusData pCurStatus) {
+            TurnOn(pSymbol);
+        }
         
-        public void TurnOn(int pSymbol, bool pConditionCheek = false) {
+        public void TurnOn(int pSymbol) {
 
             _isActive = true;
             Update();
@@ -39,10 +43,6 @@ namespace Wata.UI {
             _description.text = string.Format(DescriptionFormat, type, category, symbol.Description);
 
             _condition.text = string.Format(ConditionFormat, symbol.Condition);
-            
-            if (pConditionCheek) {
-                //TODO: Check condition
-            }
         }
 
         public void TurnOff() {

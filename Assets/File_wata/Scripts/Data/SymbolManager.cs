@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 using Wata.Extension;
+using XLua;
 
 namespace Wata.Data {
     public class SymbolManager: MonoSingleton<SymbolManager> {
@@ -38,7 +41,7 @@ namespace Wata.Data {
         );
         
        //==================================================||Methods 
-        public List<int> Sort(List<int> pSymbols) =>
+        public IEnumerable<int> Sort(IEnumerable<int> pSymbols) =>
             pSymbols = pSymbols
                 .Select(symbol => _table.Table[symbol])
                 .OrderBy(symbol => symbol.Type)
@@ -47,5 +50,27 @@ namespace Wata.Data {
                 .ThenBy(symbol => symbol.SerialNumber)
                 .Select(symbol => symbol.SerialNumber)
                 .ToList();
+        
+        public bool Condition(int pSymbol, List<List<int>> pBoardInfo, Vector2Int pPos, StatusData pCurStatus) {
+
+            var codeBuilder = new StringBuilder();
+            codeBuilder.AppendLine("function Condition(Board, Position, Status)");
+            codeBuilder.AppendLine($"RouletteWidth = {PlayerData.Width};");
+            codeBuilder.AppendLine($"RouletteHeight = {PlayerData.Width};");
+            codeBuilder.AppendLine(Symbol(pSymbol).ConditionCode);
+            codeBuilder.Append("end");
+            var code = codeBuilder.ToString();
+
+            var luaEnv = new LuaEnv();
+            var scriptEnv = luaEnv.NewTable();
+            var meta = luaEnv.NewTable();
+            meta.Set("__index", luaEnv.Global);
+            scriptEnv.SetMetaTable(meta);
+            meta.Dispose();
+            luaEnv.DoString(code);
+            var method = scriptEnv.Get<LuaFunction>("Condition");
+            return (bool)method.Call(pBoardInfo, pPos, pCurStatus)[0];
+        }
+                
     }
 }

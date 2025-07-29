@@ -40,7 +40,7 @@ namespace Wata.MapGenerator {
        public void ActiveNextNodes() {
            _edges.ForEach(edge => {
                var image = edge.Edge.GetComponent<Image>();
-               image.material = EdgeMaterial.Instance._ableToMove;
+               image.material = MaterialStore.Instance.AbleToMove;
            });
        }
        

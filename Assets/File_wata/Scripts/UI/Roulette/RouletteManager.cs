@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using NUnit.Framework;
 using UnityEngine;
 using Wata.Data;
 using Wata.Extension;
+using Wata.Extension.Test;
+using XLua;
 
 namespace Wata.UI.Roulette {
     public class RouletteManager: MonoSingleton<RouletteManager> {
@@ -20,12 +24,16 @@ namespace Wata.UI.Roulette {
 
         //==================================================||Properties 
         public bool IsRoll { get; private set; } = false;
-        public List<int> RouletteSymbols => _wheels
-            .SelectMany(symbol => symbol.Symbols)
+        public List<List<int>> RouletteSymbols => _wheels
+            .Select(symbol => symbol.Symbols)
             .ToList();
         protected override bool IsNarrowSingleton { get; set; } = true;
         
         //==================================================||Methods 
+
+        public void ActiveSymbol(Vector2Int pPos) =>
+            _wheels[pPos.x].ActiveSymbol(pPos.y);
+        
         public void Enqueue(int pSymbol) =>
             _symbolsQueue.Enqueue(pSymbol);
 
@@ -82,6 +90,8 @@ namespace Wata.UI.Roulette {
             if (!IsRoll) {
                 _shakeAnimation?.Kill();
                 _rouletteBoard.transform.position = _initialPos;
+                
+                CurStatus.Instance.Apply();
             }
         }
         

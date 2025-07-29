@@ -25,7 +25,7 @@ namespace Wata.Extension.Test {
                 return;
             
             var targets = targetType
-                .HaveAttributeMethods<TestFunctionAttribute>(flag)
+                .HaveAttributeMethods<TestMethod>(flag)
                 .OrderByDescending(data => data.Item2.Priority);
 
             if (!targets.Any())

@@ -20,7 +20,7 @@ namespace Wata.Extension.Test {
             
             //Find functions
             var targets = 
-                ExAttribute.HaveAttributeMethods<TestFunctionAttribute>(target, flag)
+                ExAttribute.HaveAttributeMethods<TestMethod>(target, flag)
                     .OrderByDescending(data => data.Attribute.Priority);
 
             //If it didn't have attribute Field, reutrn;

@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
+using Wata.Extension.Test;
 
 namespace Wata.Extension {
-    public abstract class MonoSingleton<T> : MonoBehaviour 
+    public abstract class MonoSingleton<T> : MonoBehaviourWrapper 
         where T: MonoBehaviour {
 
         private static bool exitMyGame = false;

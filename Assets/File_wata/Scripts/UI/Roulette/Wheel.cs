@@ -24,12 +24,17 @@ namespace Wata.UI.Roulette {
        //==================================================||Properties 
         public bool IsRoll => _isRoll;
 
-        public IEnumerable<int> Symbols => _showers
+        public List<int> Symbols => _showers
             .Skip(1)
-            .Select(symbol => symbol.Symbol);
+            .Select(symbol => symbol.Symbol)
+            .ToList();
         
        //==================================================||Methods 
-        private void SetUp() {
+
+       public void ActiveSymbol(int pY) =>
+           _showers.ToList()[pY + 1].Active();
+       
+       private void SetUp() {
 
             _isRoll = true;
             _speed = DefaultSpeed + Random.Range(0, RandomSpeedRange);

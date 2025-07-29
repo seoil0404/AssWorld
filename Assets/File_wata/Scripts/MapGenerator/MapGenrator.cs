@@ -19,7 +19,7 @@ namespace Wata.MapGenerator {
             StageTypeFrequency.LoadData(_testData);
         }
 
-        [TestFunction(runtimeOnly: true)]
+        [TestMethod(runtimeOnly: true)]
         private void Generate() {
             
             GenerateMap();
@@ -130,7 +130,7 @@ namespace Wata.MapGenerator {
             var idx1 = 0;
             foreach (var node in isAfter ? _mapNodes[^1] : _mapNodes[^2]) {
                 int target = 0;
-                var distance = 1000f;
+                var distance = float.MaxValue;
                 var idx2 = 0;
                 foreach (var otherNode in isAfter ? _mapNodes[^2] : _mapNodes[^1]) {
 
