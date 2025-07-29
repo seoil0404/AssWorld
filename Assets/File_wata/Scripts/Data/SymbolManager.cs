@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
 using Wata.Extension;
 using XLua;
@@ -16,7 +16,7 @@ namespace Wata.Data {
         public SymbolData Symbol(int pSymbol) =>
             _table.Table[pSymbol];
         
-       //==================================================||EnumData 
+        //==================================================||EnumData 
         public static readonly ReadOnlyDictionary<SymbolType, string> SymbolTypeKorean = new(
             new Dictionary<SymbolType, string>() {
                 { SymbolType.Buff, "효과"},
@@ -40,15 +40,25 @@ namespace Wata.Data {
             }
         );
         
-       //==================================================||Methods 
+        //==================================================||Methods 
+
         public IEnumerable<int> Sort(IEnumerable<int> pSymbols) =>
+            Sort(pSymbols, origin => origin);
+       
+        public IEnumerable<T> Sort<T>(IEnumerable<T> pSymbols, Func<T, int> pSelector) 
+            where T: IComparable =>
             pSymbols = pSymbols
-                .Select(symbol => _table.Table[symbol])
-                .OrderBy(symbol => symbol.Type)
-                .ThenBy(symbol => symbol.Category)
-                .ThenBy(symbol => symbol.ProcessPriority)
-                .ThenBy(symbol => symbol.SerialNumber)
-                .Select(symbol => symbol.SerialNumber)
+                .Select(data => (
+                        Symbol: _table.Table[pSelector.Invoke(data)],
+                        Origin: data
+                    )
+                )
+                .OrderBy(data => data.Symbol.Type)
+                .ThenBy(data => data.Symbol.Category)
+                .ThenBy(data => data.Symbol.ProcessPriority)
+                .ThenBy(data => data.Symbol.SerialNumber)
+                .ThenBy(data => data.Origin)
+                .Select(data => data.Origin)
                 .ToList();
         
         public bool Condition(int pSymbol, List<List<int>> pBoardInfo, Vector2Int pPos, StatusData pCurStatus) {

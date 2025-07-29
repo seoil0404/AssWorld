@@ -4,6 +4,5 @@ namespace Wata.Data {
         public int Strength;
         public int Dexterity;
         public int Wisdom;
-        public int Health;
     }
 }

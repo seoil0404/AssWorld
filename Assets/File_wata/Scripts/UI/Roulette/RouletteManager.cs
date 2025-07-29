@@ -16,6 +16,9 @@ namespace Wata.UI.Roulette {
         [SerializeField] private Wheel _wheelPrefab;
         [SerializeField] private GameObject _rouletteBoard;
 
+        [Space] 
+        [Header("Animation")] 
+        [SerializeField] private Animator _animator;
         //==================================================||Fields
         private List<Wheel> _wheels = new();
         private Queue<int> _symbolsQueue = new();
@@ -77,6 +80,8 @@ namespace Wata.UI.Roulette {
 
             if (!IsRoll)
                 return;
+            
+            _animator.Play("LabberDown");
             
             foreach (var wheel in _wheels) {
                 if (wheel.IsRoll) {

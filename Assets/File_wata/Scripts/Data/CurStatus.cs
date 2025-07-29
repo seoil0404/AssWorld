@@ -8,6 +8,28 @@ using Wata.Extension.UI;
 using Wata.UI.Roulette;
 
 namespace Wata.Data {
+
+    public class SymbolSlotData: IComparable {
+        public readonly int Symbol;
+        public readonly int X;
+        public readonly int Y;
+        public Vector2Int Pos => new(X, Y);
+        
+        public SymbolSlotData(int pSymbol, int pX, int pY) =>
+            (Symbol, X, Y) = (pSymbol, pX, pY);
+        
+        public int CompareTo(object obj) {
+            if (obj is not SymbolSlotData test)
+                return 0;
+
+            var result = Y.CompareTo(test.Y);
+            if (result == 0)
+                result = X.CompareTo(test.X);
+
+            return result;
+        }
+    }
+    
     public class CurStatus: MonoSingleton<CurStatus> {
         protected override bool IsNarrowSingleton { get; set; } = true;
 
@@ -30,44 +52,23 @@ namespace Wata.Data {
             _status = new();
             
             var symbols = RouletteManager.Instance.RouletteSymbols;
-            var temp = symbols.SelectMany(symbol => symbol);
-            var tempPriorities = SymbolManager.Instance
-                .Sort(
-                    temp
-                        .Distinct()
-                        .Where(symbol => 
-                            SymbolManager.Instance
-                                .Symbol(symbol)
-                                .Type == SymbolType.Buff 
-                        )
-                );
-            var priorities = new Dictionary<int, int>();
-
-            var idx = -1;
-            foreach (var priority in tempPriorities) {
-                idx++;
-                priorities.Add(priority, idx);
-            }
-
-            var orderedDatas = temp
-                .Select((symbol, idx) => (
-                        Symbol: symbol,
-                        Pos: new Vector2Int(
-                            idx / PlayerData.Height,
-                            idx % PlayerData.Height
-                        )
+            var temp = symbols
+                .SelectMany(symbol => symbol)
+                .Select((symbol, idx) => 
+                    new SymbolSlotData(
+                        symbol,
+                        idx / PlayerData.Height,
+                        idx % PlayerData.Height
                     )
                 )
                 .Where(data => 
-                    SymbolManager.Instance
-                        .Symbol(data.Symbol)
-                        .Type == SymbolType.Buff 
-                )
-                .OrderBy(data => priorities[data.Symbol])
-                .ThenBy(data => data.Pos.y)
-                .ThenBy(data => data.Pos.x);
+                    SymbolManager.Instance.Symbol(data.Symbol).Type == SymbolType.Buff
+                );
+            
+            var result = SymbolManager.Instance
+                .Sort(temp, origin => origin.Symbol);
 
-            foreach (var data in orderedDatas) {
+            foreach (var data in result) {
 
                 var usable = SymbolManager.Instance
                     .Condition(data.Symbol, symbols, data.Pos, _status);
