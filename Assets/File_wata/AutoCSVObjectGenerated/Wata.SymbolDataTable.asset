@@ -22,7 +22,7 @@ MonoBehaviour:
         <Condition>k__BackingField: "\uC5C6\uB2E4."
         <Description>k__BackingField: "\uC544\uBB34 \uAC83\uB3C4 \uC5C6\uB294 \uBE48\uCE78\uC785\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return nill;
         <ProcessPriority>k__BackingField: 0
         <Type>k__BackingField: 0
         <Category>k__BackingField: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
         <Condition>k__BackingField: "\uC5C6\uB2E4."
         <Description>k__BackingField: "\uD798\uC744 1\uB9CC\uD07C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return AddStrength(1);
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 0
         <Category>k__BackingField: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
         <Description>k__BackingField: "\uD604\uC7AC \uCCB4\uB825\uC744 1\uB9CC\uD07C
           \uD68C\uBCF5\uD569\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return nill;
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 1
         <Category>k__BackingField: 2
@@ -60,7 +60,7 @@ MonoBehaviour:
         <Description>k__BackingField: "\uC801\uC5D0\uAC8C \uC57D\uAC04\uC758 \uD53C\uD574\uB97C
           \uC785\uD799\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return nill;
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 1
         <Category>k__BackingField: 0
@@ -72,7 +72,7 @@ MonoBehaviour:
         <Condition>k__BackingField: "\uC5C6\uB2E4."
         <Description>k__BackingField: "\uBBFC\uCCA9\uC744 1\uB9CC\uD07C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return AddDexterity(1);
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 0
         <Category>k__BackingField: 1
@@ -84,7 +84,7 @@ MonoBehaviour:
         <Condition>k__BackingField: "\uC5C6\uB2E4."
         <Description>k__BackingField: "\uB9C8\uB825\uC744 1\uB9CC\uD07C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return AddWisdom(1);
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 0
         <Category>k__BackingField: 2
@@ -97,7 +97,7 @@ MonoBehaviour:
         <Description>k__BackingField: "\uBC1D\uC740 \uBE5B\uC73C\uB85C \uC0C1\uB300\uC5D0\uAC8C
           \uC2E4\uBA85\uD6A8\uACFC\uB97C \uBD80\uC5EC\uD569\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return nill;
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 1
         <Category>k__BackingField: 2
@@ -111,7 +111,7 @@ MonoBehaviour:
           \uBD80\uC5EC\uD569\uB2C8\uB2E4. \n(\uC774 \uC2EC\uBCFC \uC8FC\uC704\uC5D0
           \uCC45\uC774 \uC788\uB2E4\uBA74 \uC81C\uAC70\uC2DC\uD0B5\uB2C8\uB2E4.)"
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return nill;
         <ProcessPriority>k__BackingField: 10
         <Type>k__BackingField: 0
         <Category>k__BackingField: 2
@@ -124,7 +124,7 @@ MonoBehaviour:
         <Description>k__BackingField: "\uB2E4\uC74C \uACF5\uACA9\uC774 \uBB34\uC870\uAC74
           \uCE58\uBA85\uD0C0\uAC00 \uB429\uB2C8\uB2E4."
         <Rarity>k__BackingField: 0
-        <Effect>k__BackingField: 
+        <Effect>k__BackingField: return nill;
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 1
         <Category>k__BackingField: 1

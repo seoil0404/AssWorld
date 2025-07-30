@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using DG.Tweening;
 using UnityEngine;
 using Wata.Extension;
 using XLua;
@@ -60,27 +61,48 @@ namespace Wata.Data {
                 .ThenBy(data => data.Origin)
                 .Select(data => data.Origin)
                 .ToList();
-        
-        public bool Condition(int pSymbol, List<List<int>> pBoardInfo, Vector2Int pPos, StatusData pCurStatus) {
 
-            var codeBuilder = new StringBuilder();
-            codeBuilder.AppendLine("function Condition(Board, Position, Status)");
-            codeBuilder.AppendLine($"RouletteWidth = {PlayerData.Width};");
-            codeBuilder.AppendLine($"RouletteHeight = {PlayerData.Width};");
-            codeBuilder.AppendLine(Symbol(pSymbol).ConditionCode);
-            codeBuilder.Append("end");
-            var code = codeBuilder.ToString();
-
+        private object[] CallLua(string pCode, string pMethodName, params object[] pArguements) {
             var luaEnv = new LuaEnv();
             var scriptEnv = luaEnv.NewTable();
             var meta = luaEnv.NewTable();
             meta.Set("__index", luaEnv.Global);
             scriptEnv.SetMetaTable(meta);
             meta.Dispose();
-            luaEnv.DoString(code);
-            var method = scriptEnv.Get<LuaFunction>("Condition");
-            return (bool)method.Call(pBoardInfo, pPos, pCurStatus)[0];
+            
+            luaEnv.Global.Set("StatusManager", CurStatus.Instance);
+            
+            luaEnv.DoString(pCode);
+            var func = scriptEnv.Get<LuaFunction>(pMethodName);
+            return func.Call(pArguements);
         }
-                
+        
+        public bool Condition(int pSymbol, List<List<int>> pBoardInfo, Vector2Int pPos, StatusData pCurStatus) {
+
+            var codeBuilder = new StringBuilder();
+            codeBuilder.AppendLine("function Condition(Board, Position, Status)");
+            codeBuilder.AppendLine($"RouletteWidth = {PlayerData.Width};");
+            codeBuilder.AppendLine($"RouletteHeight = {PlayerData.Height};");
+            codeBuilder.AppendLine(Symbol(pSymbol).ConditionCode);
+            codeBuilder.Append("end");
+            var code = codeBuilder.ToString();
+
+            return (bool)CallLua(code, "Condition", pBoardInfo, pPos, pCurStatus)[0];
+        }
+
+        public Tween Apply(int pSymbol, List<List<int>> pBoardInfo, Vector2Int pPos, StatusData pCurStatus) {
+            var codeBuilder = new StringBuilder();
+            codeBuilder.AppendLine("function SymbolEffect(Board, Position, Status)");
+            codeBuilder.AppendLine($"RouletteWidth = {PlayerData.Width};");
+            codeBuilder.AppendLine($"RouletteHeight = {PlayerData.Height};");
+            codeBuilder.AppendLine("AddWisdom = function(...) return StatusManager:AddWisdom(...); end");
+            codeBuilder.AppendLine("AddStrength = function(...) return StatusManager:AddStrength(...); end");
+            codeBuilder.AppendLine("AddDexterity = function(...) return StatusManager:AddDexterity(...); end");
+            codeBuilder.AppendLine(Symbol(pSymbol).Effect);
+            codeBuilder.Append("end");
+            var code = codeBuilder.ToString();
+
+            return CallLua(code, "SymbolEffect", pBoardInfo, pPos, pCurStatus)[0] as Tween;
+        }
     }
 }

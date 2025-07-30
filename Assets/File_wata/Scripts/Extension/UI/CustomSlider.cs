@@ -7,7 +7,8 @@ namespace Wata.Extension.UI {
     public class CustomSlider: MonoBehaviour {
         [SerializeField] private Image _progressBar;
         [SerializeField] private TMP_Text _progress;
-
+        [SerializeField] private string _progressFormat = "{0}%";
+        
         [Space, Header("ProgressValue")]
         [SerializeField, WhenValueChange("Fill")] 
         private float _value;
@@ -25,7 +26,7 @@ namespace Wata.Extension.UI {
             _progressBar.fillAmount = _value;
             
             if(_progress != null)
-                _progress.text = $"{(int)(_value * 100f)}%";
+                _progress.text = string.Format(_progressFormat, (int)(_value * 100f));
         }
     }
 }
