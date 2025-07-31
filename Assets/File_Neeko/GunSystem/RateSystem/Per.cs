@@ -22,17 +22,16 @@ namespace Neeko {
 
 		//======================================================================| Properties
 
-		public float Interval { get; }
+		public float Interval => _rate != 0f 
+			? _unit.BaseMultiply / _rate
+			: float.PositiveInfinity;
 
 		//======================================================================| Constructors
 
 		public Per(float rate) {
 
+			_rate = rate;
 			_unit = CacheIfNeeded<TUnit>();
-
-			Interval = rate != 0f 
-				? _unit.BaseMultiply / rate
-				: float.PositiveInfinity;
 
 		}
 
@@ -59,6 +58,12 @@ namespace Neeko {
 			var multiple = otherUnit.BaseMultiply / _unit.BaseMultiply;
 
 			return new(_rate * multiple);
+
+		}
+
+		public override string ToString() {
+
+			return $"{_rate}/{_unit.Unit}";
 
 		}
 
