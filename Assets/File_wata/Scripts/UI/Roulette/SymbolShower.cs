@@ -18,11 +18,10 @@ namespace Wata.UI.Roulette {
         private int _symbol;
         public int Symbol => _symbol;
 
-        public void Active() {
+        public Tween Active() =>
             _image.transform.DOScale(1.2f, 0.5f)
                 .SetLoops(2, LoopType.Yoyo)
                 .OnComplete(() => _image.material = MaterialStore.Instance.Gray);
-        }
         
         public void SetIcon(int pSymbol) {
             

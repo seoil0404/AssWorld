@@ -31,7 +31,7 @@ namespace Wata.UI.Roulette {
         
        //==================================================||Methods 
 
-       public void ActiveSymbol(int pY) =>
+       public Tween ActiveSymbol(int pY) =>
            _showers.ToList()[pY + 1].Active();
        
        private void SetUp() {

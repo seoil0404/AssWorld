@@ -42,42 +42,41 @@ namespace Wata.Data {
         [SerializeField] private CustomSlider _hp;
         [SerializeField] private TMP_Text _money;
 
-        private StatusData _status = new();
+        public StatusData Status { get; private set; } = new();
 
         public Tween AddStrength(int pAmount) {
-            var temp = _status.Strength;
-            _status.Strength += pAmount;
+            var temp = Status.Strength;
+            Status.Strength += pAmount;
 
-            return AddAnimation(_strength, temp, _status.Strength);
+            return AddAnimation(_strength, temp, Status.Strength);
         }
 
-        [TestMethod]
         public Tween AddDexterity(int pAmount) {
-            var temp = _status.Dexterity;
-            _status.Dexterity += pAmount;
+            var temp = Status.Dexterity;
+            Status.Dexterity += pAmount;
 
-            return AddAnimation(_dexterity, temp, _status.Dexterity);
+            return AddAnimation(_dexterity, temp, Status.Dexterity);
         }
         
         public Tween AddWisdom(int pAmount) {
-            var temp = _status.Wisdom;
-            _status.Wisdom += pAmount;
+            var temp = Status.Wisdom;
+            Status.Wisdom += pAmount;
 
-            return AddAnimation(_wisdom, temp, _status.Wisdom);
+            return AddAnimation(_wisdom, temp, Status.Wisdom);
         }
 
 
         private Tween AddAnimation(TMP_Text pTarget, int pStart, int pEnd) =>
             DOTween.Sequence()
-                .Append(pTarget.transform.DOShakePosition(0.65f,
+                .Append(pTarget.transform.DOShakePosition(0.4f,
                     4 * Mathf.Log(Mathf.Abs(pEnd - pStart) + 1) * Vector3.up))
-                .Join(pTarget.DOCounter(pStart, pEnd, 0.5f))
-                .Join(_dexterity.DOFontSize(60, 0.3f).SetEase(Ease.OutCirc))
-                .Append(_dexterity.DOFontSize(40, 0.3f).SetEase(Ease.OutQuad));
+                .Join(pTarget.DOCounter(pStart, pEnd, 0.35f))
+                .Join(pTarget.DOFontSize(60, 0.2f).SetEase(Ease.OutCirc))
+                .Append(pTarget.DOFontSize(40, 0.2f).SetEase(Ease.OutQuad));
 
-        public void Apply() {
+        public Queue<SymbolSlotData> Apply() {
 
-            _status = new();
+            Status = new();
             
             var symbols = RouletteManager.Instance.RouletteSymbols;
             var temp = symbols
@@ -93,18 +92,20 @@ namespace Wata.Data {
                     SymbolManager.Instance.Symbol(data.Symbol).Type == SymbolType.Buff
                 );
             
-            var result = SymbolManager.Instance
+            var candidate = SymbolManager.Instance
                 .Sort(temp, origin => origin.Symbol);
 
-            foreach (var data in result) {
+            Queue<SymbolSlotData> result = new();
+            foreach (var data in candidate) {
 
                 var usable = SymbolManager.Instance
-                    .Condition(data.Symbol, symbols, data.Pos, _status);
+                    .Condition(data.Symbol, symbols, data.Pos, Status);
                 if (usable) {
-                    SymbolManager.Instance.Apply(data.Symbol, symbols, data.Pos, _status);
-                    RouletteManager.Instance.ActiveSymbol(data.Pos);
+                    result.Enqueue(data);
                 }
             }
+
+            return result;
         }
     }
 }

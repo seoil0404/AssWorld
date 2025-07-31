@@ -24,7 +24,10 @@ namespace Wata.UI.Roulette {
         private Queue<int> _symbolsQueue = new();
         private Tween _shakeAnimation = null;
         private Vector2 _initialPos = Vector2.zero;
-
+        
+        private Queue<SymbolSlotData> _effectApplyQueue = null;
+        private Tween _curEffectAnimation = null;
+        
         //==================================================||Properties 
         public bool IsRoll { get; private set; } = false;
         public List<List<int>> RouletteSymbols => _wheels
@@ -34,7 +37,23 @@ namespace Wata.UI.Roulette {
         
         //==================================================||Methods 
 
-        public void ActiveSymbol(Vector2Int pPos) =>
+        private void ApplyEffect() {
+
+            var existEffectTarget = (_effectApplyQueue?.Count??0) > 0;
+            var isPlayable = !(_curEffectAnimation?.IsPlaying() ?? false);
+            
+            if (!existEffectTarget || !isPlayable)
+                return;
+
+            var target = _effectApplyQueue!.Dequeue();
+            var status = CurStatus.Instance.Status;
+
+            _curEffectAnimation = DOTween.Sequence()
+                .Append(ActiveSymbol(target.Pos))
+                .Join(SymbolManager.Instance.Apply(target.Symbol, RouletteSymbols, target.Pos, status));
+        }
+        
+        public Tween ActiveSymbol(Vector2Int pPos) =>
             _wheels[pPos.x].ActiveSymbol(pPos.y);
         
         public void Enqueue(int pSymbol) =>
@@ -96,7 +115,7 @@ namespace Wata.UI.Roulette {
                 _shakeAnimation?.Kill();
                 _rouletteBoard.transform.position = _initialPos;
                 
-                CurStatus.Instance.Apply();
+                _effectApplyQueue = CurStatus.Instance.Apply();
             }
         }
         
@@ -115,6 +134,11 @@ namespace Wata.UI.Roulette {
             PlayerData.AddSymbol(1008, 1);
             
             StartRoll();
+        }
+
+        private new void Update() {
+            base.Update();
+            ApplyEffect();
         }
     }
 }
