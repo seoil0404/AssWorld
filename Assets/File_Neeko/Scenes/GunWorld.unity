@@ -1099,10 +1099,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Glock15
       objectReference: {fileID: 0}
-    - target: {fileID: 4069045399395654676, guid: a1de909525392134693eff2872641f0a, type: 3}
-      propertyPath: _flareHoldingTime
-      value: 0.175
-      objectReference: {fileID: 0}
     - target: {fileID: 8766912252421028217, guid: a1de909525392134693eff2872641f0a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.032
