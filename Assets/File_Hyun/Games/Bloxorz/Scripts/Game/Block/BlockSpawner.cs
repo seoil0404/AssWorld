@@ -12,7 +12,7 @@ namespace Bloxorz.Game.Block
         {
             Init();
 
-            Vector3 center = new(data.x, 1, mapHeight - data.y - 1); // 월드 좌표 보정
+            Vector3 center = new(data.x, 1.5f, mapHeight - data.y - 1);
             GameObject block = Object.Instantiate(_blockPrefab, center, Quaternion.identity, _blockRoot);
             block.name = "PlayerBlock";
 

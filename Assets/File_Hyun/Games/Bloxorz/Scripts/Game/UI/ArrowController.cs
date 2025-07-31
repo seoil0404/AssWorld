@@ -8,10 +8,25 @@ namespace Bloxorz.Game.UI
     {
         [SerializeField] private GameObject arrowPrefab;
         [SerializeField] private float offset = 1.5f;
-        [SerializeField] private float height = 1f;
 
         private Transform target;
         private readonly List<GameObject> arrows = new();
+
+        private static readonly Vector3[] Directions =
+        {
+            Vector3.forward,
+            Vector3.back,
+            Vector3.left,
+            Vector3.right
+        };
+
+        private static readonly Quaternion[] ArrowRotations =
+        {
+            Quaternion.Euler(90, 0, 0),
+            Quaternion.Euler(90, 180, 0),
+            Quaternion.Euler(90, -90, 0),
+            Quaternion.Euler(90, 90, 0)
+        };
 
         private void Start()
         {
@@ -31,19 +46,13 @@ namespace Bloxorz.Game.UI
             if (target == null) return;
 
             Vector3 center = target.position;
-            Vector3[] directions = {
-                Vector3.forward, // North (Z+)
-                Vector3.back,    // South (Z-)
-                Vector3.left,    // West (X-)
-                Vector3.right    // East (X+)
-            };
 
             for (int i = 0; i < arrows.Count; i++)
             {
-                Vector3 pos = center + directions[i] * offset;
-                pos.y = center.y + height;
-                arrows[i].transform.position = pos;
-                arrows[i].transform.LookAt(UnityEngine.Camera.main.transform);
+                Vector3 pos = center + Directions[i] * offset;
+                pos.y = center.y;
+
+                arrows[i].transform.SetPositionAndRotation(pos, ArrowRotations[i]);
             }
         }
 
@@ -59,7 +68,7 @@ namespace Bloxorz.Game.UI
                 arrow.name = $"Arrow_{dirNames[i]}";
                 arrow.transform.SetParent(transform);
 
-                int captured = i; // for closure
+                int captured = i;
                 arrow.GetComponent<ClickableArrow>().OnClicked = () =>
                 {
                     target.GetComponent<BlockController>().TryMove(captured);

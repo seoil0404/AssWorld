@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Bloxorz.Game.Block
 {
@@ -11,10 +11,10 @@ namespace Bloxorz.Game.Block
         private bool isMoving = false;
 
         private static readonly Vector3Int[] Directions = {
-            new(0, 0, 1),   // Forward
-            new(0, 0, -1),  // Back
-            new(-1, 0, 0),  // Left
-            new(1, 0, 0)    // Right
+            new(0, 0, 1),
+            new(0, 0, -1),
+            new(-1, 0, 0),
+            new(1, 0, 0)
         };
 
         public void SetInitialState(string stateString)
@@ -29,86 +29,62 @@ namespace Bloxorz.Game.Block
         public void TryMove(int dir)
         {
             if (isMoving) return;
-            StartCoroutine(Roll(dir));
+            Move(dir);
         }
 
-        private IEnumerator Roll(int dir)
+        private void Move(int dir)
         {
             isMoving = true;
 
             Vector3Int direction = Directions[dir];
-
-            Vector3 pivot = CalculatePivot(direction);
             Vector3 axis = Vector3.Cross(Vector3.up, direction);
 
+            BlockState nextState = PredictNextState(dir);
+            float moveDistance = (currentState == nextState) ? 0f : 0.5f;
+
+            transform.GetPositionAndRotation(out Vector3 fromPos, out Quaternion fromRot);
+
+            Vector3 pivot = fromPos + new Vector3(direction.x, -moveDistance, direction.z);
+            Vector3 rotatedPos = Quaternion.AngleAxis(90f, axis) * (fromPos - pivot) + pivot;
+            rotatedPos.y = (nextState == BlockState.Standing) ? 1.5f : 1.0f;
+
+            Quaternion toRot = Quaternion.AngleAxis(90f, axis) * fromRot;
+
             float duration = 0.2f;
-            float elapsed = 0f;
-            float angle = 90f;
 
-            Quaternion fromRot = transform.rotation;
-            Quaternion toRot = Quaternion.AngleAxis(angle, axis) * fromRot;
-
-            Vector3 fromPos = transform.position;
-            Vector3 toPos = RotateAroundPoint(fromPos, pivot, axis, angle);
-
-            while (elapsed < duration)
+            Sequence seq = DOTween.Sequence();
+            seq.Join(transform.DOMove(rotatedPos, duration).SetEase(Ease.InOutSine));
+            seq.Join(transform.DORotateQuaternion(toRot, duration).SetEase(Ease.InOutSine));
+            seq.OnComplete(() =>
             {
-                float t = elapsed / duration;
-                transform.SetPositionAndRotation(Vector3.Lerp(fromPos, toPos, t), Quaternion.Slerp(fromRot, toRot, t));
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
+                transform.SetPositionAndRotation(rotatedPos, toRot);
+                currentState = nextState;
+                UpdateTransform();
+                isMoving = false;
 
-            transform.SetPositionAndRotation(toPos, toRot);
-            UpdateStateAfterMove(dir);
-            isMoving = false;
+                // 클리어 및 게임오버 판정
+                if (IsClear())
+                {
+                    Debug.Log("Stage Clear!");
+                    // TODO: 클리어 처리
+                }
+                else if (IsGameOver())
+                {
+                    Debug.Log("Game Over!");
+                    // TODO: 게임 오버 처리
+                }
+            });
         }
 
-        private Vector3 CalculatePivot(Vector3Int dir)
+        private BlockState PredictNextState(int dir)
         {
-            Vector3 pos = transform.position;
-
-            switch (currentState)
+            return currentState switch
             {
-                case BlockState.Standing:
-                    return pos + new Vector3(dir.x, -1, dir.z) * 0.5f;
-
-                case BlockState.Lying_X:
-                    if (dir.z != 0) // Z방향 회전
-                        return pos + new Vector3(0, -0.5f, dir.z * 0.5f);
-                    else // X방향 → 세움
-                        return pos + new Vector3(dir.x * 0.5f, -0.5f, 0);
-
-                case BlockState.Lying_Z:
-                    if (dir.x != 0)
-                        return pos + new Vector3(dir.x * 0.5f, -0.5f, 0);
-                    else
-                        return pos + new Vector3(0, -0.5f, dir.z * 0.5f);
-
-                default:
-                    return pos;
-            }
-        }
-
-        private Vector3 RotateAroundPoint(Vector3 point, Vector3 pivot, Vector3 axis, float angle)
-        {
-            return Quaternion.AngleAxis(angle, axis) * (point - pivot) + pivot;
-        }
-
-        private void UpdateStateAfterMove(int dir)
-        {
-            switch (currentState)
-            {
-                case BlockState.Standing:
-                    currentState = (dir <= 1) ? BlockState.Lying_Z : BlockState.Lying_X;
-                    break;
-                case BlockState.Lying_X:
-                    currentState = (dir >= 2) ? BlockState.Standing : BlockState.Lying_X;
-                    break;
-                case BlockState.Lying_Z:
-                    currentState = (dir <= 1) ? BlockState.Standing : BlockState.Lying_Z;
-                    break;
-            }
+                BlockState.Standing => (dir <= 1) ? BlockState.Lying_Z : BlockState.Lying_X,
+                BlockState.Lying_X => (dir >= 2) ? BlockState.Standing : BlockState.Lying_X,
+                BlockState.Lying_Z => (dir <= 1) ? BlockState.Standing : BlockState.Lying_Z,
+                _ => currentState
+            };
         }
 
         private void UpdateTransform()
@@ -126,6 +102,62 @@ namespace Bloxorz.Game.Block
                     break;
             }
             transform.rotation = Quaternion.identity;
+        }
+
+        private bool IsClear()
+        {
+            if (currentState != BlockState.Standing) return false;
+
+            Vector3Int below = Vector3Int.RoundToInt(transform.position + Vector3.down);
+            GameObject tile = GetTileAt(below);
+            return tile != null && tile.name.StartsWith("GoalTile");
+        }
+
+        private bool IsGameOver()
+        {
+            foreach (Vector3Int pos in GetBottomPositions())
+            {
+                GameObject tile = GetTileAt(pos);
+                if (tile == null || (!tile.name.StartsWith("Tile") && !tile.name.StartsWith("GoalTile")))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private GameObject GetTileAt(Vector3Int pos)
+        {
+            string[] names = {
+                $"Tile_{pos.x}_{pos.z}",
+                $"GoalTile_{pos.x}_{pos.z}"
+            };
+
+            foreach (string name in names)
+            {
+                GameObject found = GameObject.Find(name);
+                if (found != null) return found;
+            }
+
+            return null;
+        }
+
+        private Vector3Int[] GetBottomPositions()
+        {
+            Vector3Int center = Vector3Int.RoundToInt(transform.position + Vector3.down);
+            return currentState switch
+            {
+                BlockState.Standing => new[] { center },
+                BlockState.Lying_X => new[] {
+                    center + Vector3Int.left,
+                    center + Vector3Int.right
+                },
+                BlockState.Lying_Z => new[] {
+                    center + new Vector3Int(0, 0, -1),
+                    center + new Vector3Int(0, 0, 1)
+                },
+                _ => new[] { center }
+            };
         }
     }
 }
