@@ -8,11 +8,15 @@ namespace Neeko {
 		//======================================================================| Inspector Fields
 
 		[SerializeField]
-		private float _rotatingLerpSpeed;
+		private float _rotatingLerpSpeed = 10f;
 
 		//======================================================================| Fields
 
 		private Transform _muzzle;
+
+		//======================================================================| Properties
+
+		public Vector2 Direction => transform.rotation * Vector2.left;
 
 		//======================================================================| Unity Behaviours
 
@@ -33,20 +37,15 @@ namespace Neeko {
 			var mouseInput = Input.mousePosition.WithZ(0);
 			var mouseWorld = Camera.main.ScreenToWorldPoint(mouseInput);
 
-			var direction = mouseWorld - transform.position;
+			var direction = transform.position - mouseWorld;
 			direction.Normalize();
 
 			var targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			var currentAngle = transform.eulerAngles.z;
 
-			Debug.Log($"Target: {targetAngle}");
-			Debug.Log($"Current: {currentAngle}");
-
 			var lerpFactor = Time.deltaTime * _rotatingLerpSpeed;
 			var lerpedAngle = Mathf.LerpAngle(currentAngle, targetAngle, lerpFactor);
 			var rotation = Quaternion.Euler(0f, 0f, lerpedAngle);
-			
-			Debug.Log($"Lerped: {lerpedAngle}");
 
 			transform.rotation = rotation;
 
