@@ -54,6 +54,19 @@ namespace Wata.MapGenerator {
         
         //==================================================||Methods 
 
+        public void ClearStage(Vector2Int pPos) {
+            
+            _mapNodes[pPos.y][pPos.x].ActiveNextEdges();
+            foreach (var node in _mapNodes[pPos.y]) {
+                node.SetActive(false);
+            }
+            
+            foreach (var nextNode in _mapNodes[pPos.y][pPos.x]) {
+                Debug.Log($"{nextNode}, {pPos}");
+                _mapNodes[nextNode.y][nextNode.x].SetActive();
+            }
+        }
+
         private void GenerateMap() {
             
             foreach (var floor in _mapNodes) {
@@ -64,13 +77,13 @@ namespace Wata.MapGenerator {
 
             var interval = 1f / (_roundCount + 1 + topIntval);
             for (int i = 0; i < _roundCount; i++) {
-                GenerateRound(interval * (i + 1), i);
+                GenerateRound(interval * (i + 1));
                 GenerateEdges();
             }
         }
        
         
-        private void GenerateRound(float pHeight, int pIdx) {
+        private void GenerateRound(float pHeight) {
 
             _mapNodes.Add(new());
             
@@ -87,16 +100,19 @@ namespace Wata.MapGenerator {
                 rect.SetLocalPositionY(position: pHeight);
                 rect.AddPosition(RandomNoise(rect.sizeDelta));
                 
-                //set type
-                var type = StageTypeFrequency.Random();
-                newIcon.Init(type, new(i, pIdx));
-                
                 _mapNodes[^1].Add(newIcon);
             }
 
             _mapNodes[^1] = _mapNodes[^1]
                 .OrderBy(node => node.transform.position.x)
                 .ToList();
+
+            var idx = 0;
+            foreach (var node in _mapNodes[^1]) {
+                //set type
+                var type = StageTypeFrequency.Random();
+                node.SetUp(type, new(idx++, _mapNodes.Count - 1));
+            }
         } 
         
         private int GetWidthSize() {
@@ -203,10 +219,11 @@ namespace Wata.MapGenerator {
         private void Awake() {
             TestSetUp();
         
+            MapNode.Init(this);
             GenerateMap();
 
             foreach (var node in _mapNodes[0]) {
-                node.ActiveNode();
+                node.SetActive();
             }
         }
     }

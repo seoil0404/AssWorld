@@ -15,7 +15,6 @@ namespace Wata.SymbolInventory {
         [SerializeField] private SymbolInventorySlot _inventorySlotPrefab;
         [SerializeField] private GameObject _box;
         private List<SymbolInventorySlot> _slots = new();
-        public bool NeedUpdate { get; set; } = false;
         private bool _isOn = false;
         
         private void UpdateSlots() {
@@ -77,15 +76,10 @@ namespace Wata.SymbolInventory {
         }
         
        //==================================================||Unity 
-        private void Awake() {
-            NeedUpdate = true;
-        }
-
         private void Update() {
-            if (NeedUpdate) {
-                
+            
+            if (PlayerData.NeedUpdate) {
                 UpdateSlots();
-                NeedUpdate = false;
             }
         }
     }

@@ -32,6 +32,11 @@ namespace Wata.UI.Roulette {
             _image.sprite = pSymbol.GetIcon();
         }
 
+        public void Remove() {
+            PlayerData.RemoveSymbol(_symbol);
+            SetIcon(0);
+        }
+        
         public void OnPointerEnter(PointerEventData eventData) {
             SymbolInfoShower.Instance.TurnOn(_symbol);
         }

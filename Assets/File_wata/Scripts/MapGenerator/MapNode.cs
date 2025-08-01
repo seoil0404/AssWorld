@@ -25,6 +25,7 @@ namespace Wata.MapGenerator {
        [SerializeField] private Image _backGround;
        
        //==================================================||Fields 
+       private static MapGenrator _generator = null;
        private static Dictionary<Stage, Sprite> mapIcons = null;
         private Stage _stageType;
         private List<(int NextNode, GameObject Edge)> _edges = new();
@@ -32,12 +33,21 @@ namespace Wata.MapGenerator {
         
        //==================================================||Methods 
 
-       public void ActiveNode() {
+       public static void Init(MapGenrator pGenerator) =>
+           _generator = pGenerator;
+
+       public void Clear() {
+           _generator.ClearStage(Position);
+       }
+       
+       public void SetActive(bool pActive = true) {
+           transform.localScale = Vector3.one;
            _animation?.Kill();
-           _animation = transform.DOBreathing(animationCycle, animationScale);
+           if(pActive)
+               _animation = transform.DOBreathing(animationCycle, animationScale);
        }
 
-       public void ActiveNextNodes() {
+       public void ActiveNextEdges() {
            _edges.ForEach(edge => {
                var image = edge.Edge.GetComponent<Image>();
                image.material = MaterialStore.Instance.AbleToMove;
@@ -47,7 +57,7 @@ namespace Wata.MapGenerator {
         public void Add(int pIdx, GameObject pEdge) =>
             _edges.Add((pIdx, pEdge));
         
-        public void Init(Stage pStage, Vector2Int pPosition) {
+        public void SetUp(Stage pStage, Vector2Int pPosition) {
 
             FindIcons();
             
@@ -71,7 +81,7 @@ namespace Wata.MapGenerator {
 
         public IEnumerator<Vector2Int> GetEnumerator() =>
             _edges
-                .Select(edge => new Vector2Int(edge.NextNode, Position.y))
+                .Select(edge => new Vector2Int(edge.NextNode, Position.y + 1))
                 .GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>

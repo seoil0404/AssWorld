@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Table>k__BackingField:
   - <Width>k__BackingField: 3
-    <Frequency>k__BackingField: 3
+    <Frequency>k__BackingField: 7
   - <Width>k__BackingField: 4
     <Frequency>k__BackingField: 12
   - <Width>k__BackingField: 5

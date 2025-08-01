@@ -20,7 +20,7 @@ namespace Wata.Data {
             if (_symbolIcon.TryGetValue(pSymbol, out var result))
                 return result;
 
-            return _symbolIcon[0];
+            return _symbolIcon[-1];
         } 
     }
 }

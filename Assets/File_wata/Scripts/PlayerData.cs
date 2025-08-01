@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Wata.Data {
@@ -10,7 +11,17 @@ namespace Wata.Data {
         public const int Height = 3;
 
         public const int MaxSymbolCount = 25;
-
+        
+        private static bool needUpdate = true;
+        public static bool NeedUpdate {
+            get {
+                var temp = needUpdate;
+                needUpdate = false;
+                return temp;
+            }
+            private set => needUpdate = value;
+        }
+        
         private static SortedDictionary<int, int> symbols = new();
 
        //==================================================||Properties 
@@ -70,6 +81,7 @@ namespace Wata.Data {
             
             symbols.TryAdd(pSymbol, 0);
             symbols[pSymbol] += pAmount;
+            NeedUpdate = true;
             Debug.Log($"{pSymbol} is added(count: {pAmount})");
         }
 
@@ -80,6 +92,7 @@ namespace Wata.Data {
 
             symbols[0] += pAmount;
             symbols[pSymbol] -= pAmount;
+            NeedUpdate = true;
             Debug.Log($"{pSymbol} is removed(count: {pAmount})");
         }
     }
