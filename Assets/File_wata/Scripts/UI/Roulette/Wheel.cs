@@ -31,6 +31,14 @@ namespace Wata.UI.Roulette {
         
        //==================================================||Methods 
 
+       public void Remove(int pIdx) {
+
+           pIdx++;
+           if (pIdx < 1 || _showers.Count <= pIdx)
+               return;
+           _showers.ToList()[pIdx].Remove();
+       }
+       
        public Tween ActiveSymbol(int pY) =>
            _showers.ToList()[pY + 1].Active();
        

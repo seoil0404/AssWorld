@@ -128,3 +128,22 @@ MonoBehaviour:
         <ProcessPriority>k__BackingField: 1
         <Type>k__BackingField: 1
         <Category>k__BackingField: 1
+    - Key: 1009
+      Value:
+        <SerialNumber>k__BackingField: 1009
+        <Name>k__BackingField: "\uBD84\uB178"
+        <ConditionCode>k__BackingField: return true
+        <Condition>k__BackingField: "\uC5C6\uB2E4."
+        <Description>k__BackingField: "\uD798\uC744 3\uB9CC\uD07C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4.
+          \n\uADF8 \uB300\uC2E0 \uC67C\uCABD\uC5D0 \uC788\uB294 \uC2EC\uBCFC\uC744
+          \uC9C0\uC6CC\uBC84\uB9BD\uB2C8\uB2E4."
+        <Rarity>k__BackingField: 1
+        <Effect>k__BackingField: 'RemoveSymbol(Pos.x + 1, Pos.y);
+
+          RemoveSymbol(Pos.x
+          - 1, Pos.y);
+
+          return AddStrength(3);'
+        <ProcessPriority>k__BackingField: 10
+        <Type>k__BackingField: 0
+        <Category>k__BackingField: 0

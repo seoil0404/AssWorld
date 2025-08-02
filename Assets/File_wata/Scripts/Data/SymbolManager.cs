@@ -6,6 +6,7 @@ using System.Text;
 using DG.Tweening;
 using UnityEngine;
 using Wata.Extension;
+using Wata.UI.Roulette;
 using XLua;
 
 namespace Wata.Data {
@@ -54,9 +55,9 @@ namespace Wata.Data {
                         Origin: data
                     )
                 )
-                .OrderBy(data => data.Symbol.Type)
+                .OrderBy(data => data.Symbol.ProcessPriority)
+                .ThenBy(data => data.Symbol.Type)
                 .ThenBy(data => data.Symbol.Category)
-                .ThenBy(data => data.Symbol.ProcessPriority)
                 .ThenBy(data => data.Symbol.SerialNumber)
                 .ThenBy(data => data.Origin)
                 .Select(data => data.Origin)
@@ -71,6 +72,7 @@ namespace Wata.Data {
             meta.Dispose();
             
             luaEnv.Global.Set("StatusManager", CurStatus.Instance);
+            luaEnv.Global.Set("Roulette", RouletteManager.Instance);
             
             luaEnv.DoString(pCode);
             var func = scriptEnv.Get<LuaFunction>(pMethodName);
@@ -80,7 +82,7 @@ namespace Wata.Data {
         public bool Condition(int pSymbol, List<List<int>> pBoardInfo, Vector2Int pPos, StatusData pCurStatus) {
 
             var codeBuilder = new StringBuilder();
-            codeBuilder.AppendLine("function Condition(Board, Position, Status)");
+            codeBuilder.AppendLine("function Condition(Board, Pos, Status)");
             codeBuilder.AppendLine($"RouletteWidth = {PlayerData.Width};");
             codeBuilder.AppendLine($"RouletteHeight = {PlayerData.Height};");
             codeBuilder.AppendLine(Symbol(pSymbol).ConditionCode);
@@ -92,12 +94,13 @@ namespace Wata.Data {
 
         public Tween Apply(int pSymbol, List<List<int>> pBoardInfo, Vector2Int pPos, StatusData pCurStatus) {
             var codeBuilder = new StringBuilder();
-            codeBuilder.AppendLine("function SymbolEffect(Board, Position, Status)");
+            codeBuilder.AppendLine("function SymbolEffect(Board, Pos, Status)");
             codeBuilder.AppendLine($"RouletteWidth = {PlayerData.Width};");
             codeBuilder.AppendLine($"RouletteHeight = {PlayerData.Height};");
             codeBuilder.AppendLine("AddWisdom = function(...) return StatusManager:AddWisdom(...); end");
             codeBuilder.AppendLine("AddStrength = function(...) return StatusManager:AddStrength(...); end");
             codeBuilder.AppendLine("AddDexterity = function(...) return StatusManager:AddDexterity(...); end");
+            codeBuilder.AppendLine("RemoveSymbol = function(...) return Roulette:Remove(...); end");
             codeBuilder.AppendLine(Symbol(pSymbol).Effect);
             codeBuilder.Append("end");
             var code = codeBuilder.ToString();

@@ -37,7 +37,14 @@ namespace Wata.UI.Roulette {
         
         //==================================================||Methods 
 
-        private void ApplyEffect() {
+        public void Remove(int x, int y) {
+
+            if (x < 0 || _wheels.Count <= x)
+                return;
+            _wheels[x].Remove(y);
+        }
+        
+        private void EffectUpdate() {
 
             var existEffectTarget = (_effectApplyQueue?.Count??0) > 0;
             var isPlayable = !(_curEffectAnimation?.IsPlaying() ?? false);
@@ -128,17 +135,14 @@ namespace Wata.UI.Roulette {
             PlayerData.AddSymbol(1002, 5);
             PlayerData.AddSymbol(1003, 3);
             PlayerData.AddSymbol(1004, 5);
-            PlayerData.AddSymbol(1005, 1);
-            PlayerData.AddSymbol(1006, 1);
-            PlayerData.AddSymbol(1007, 1);
-            PlayerData.AddSymbol(1008, 1);
+            PlayerData.AddSymbol(1009, 8);
             
             StartRoll();
         }
 
         private new void Update() {
             base.Update();
-            ApplyEffect();
+            EffectUpdate();
         }
     }
 }
